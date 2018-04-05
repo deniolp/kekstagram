@@ -19,7 +19,7 @@ var DESCRIPTION_LIST = [
 ];
 
 var photoList = [];
-var template = document.querySelector('#picture').content.querySelector('a');
+var photoTemplate = document.querySelector('#picture').content.querySelector('a');
 var pictures = document.querySelector('.pictures');
 var fragment = document.createDocumentFragment();
 
@@ -44,14 +44,11 @@ var generatePhoto = function (index) {
   };
 };
 
-var createElement = function (element, object) {
-  element = template.cloneNode(true);
-  var img = element.querySelector('img');
-  var photoStat = element.querySelector('.picture__stat--likes');
-  var commentStat = element.querySelector('.picture__stat--comments');
-  img.src = object.url;
-  photoStat.textContent = object.likes;
-  commentStat.textContent = object.comments.length;
+var createPictureElement = function (template, object) {
+  var element = template.cloneNode(true);
+  element.querySelector('img').src = object.url;
+  element.querySelector('.picture__stat--likes').textContent = object.likes;
+  element.querySelector('.picture__stat--comments').textContent = object.comments.length;
   return element;
 };
 
@@ -59,9 +56,8 @@ for (var i = 0; i < LIMIT_PHOTOS; i++) {
   photoList.push(generatePhoto(i + 1));
 }
 
-for (var j = 0; j < photoList.length; j++) {
-  var element = createElement(template, photoList[j]);
-  fragment.appendChild(element);
+for (var j = 0; j < LIMIT_PHOTOS; j++) {
+  fragment.appendChild(createPictureElement(photoTemplate, photoList[j]));
 }
 
 pictures.appendChild(fragment);
