@@ -48,7 +48,6 @@ var createPictureElement = function (template, object) {
 };
 
 var openPicture = function (array) {
-  bigPicture.classList.remove('hidden');
   bigPicture.querySelector('.big-picture__img').querySelector('img').src = array.url;
   bigPicture.querySelector('.likes-count').textContent = array.likes;
   bigPicture.querySelector('.comments-count').textContent = array.comments.length;
@@ -79,5 +78,6 @@ for (var j = 0; j < LIMIT_PICTURES; j++) {
 pictures.appendChild(fragment);
 
 openPicture(pictureList[0]);
+bigPicture.classList.remove('hidden');
 bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
 bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
