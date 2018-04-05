@@ -18,12 +18,6 @@ var DESCRIPTION_LIST = [
   'Вот это тачка!'
 ];
 
-var pictureList = [];
-var pictureTemplate = document.querySelector('#picture').content.querySelector('a');
-var pictures = document.querySelector('.pictures');
-var fragment = document.createDocumentFragment();
-var bigPicture = document.querySelector('.big-picture');
-
 var generateRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -70,6 +64,12 @@ var openPicture = function (array) {
   bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
   bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
 };
+
+var pictureList = [];
+var pictureTemplate = document.querySelector('#picture').content.querySelector('a');
+var pictures = document.querySelector('.pictures');
+var fragment = document.createDocumentFragment();
+var bigPicture = document.querySelector('.big-picture');
 
 for (var i = 0; i < LIMIT_PICTURES; i++) {
   pictureList.push(generatePicture(i + 1));
