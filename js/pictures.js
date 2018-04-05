@@ -15,10 +15,10 @@ var getComments = function (quantityOfComments) {
   } return comments;
 };
 
-for (var i = 0; i < 25; i++) {
+for (var i = 1; i <= 25; i++) {
   photoList.push(
       {
-        url: 'photos/' + getRandom(1, 25),
+        url: 'photos/' + i,
         likes: getRandom(15, 200),
         comments: getComments(getRandom(1, 2)),
         description: descriptionList[getRandom(0, descriptionList.length - 1)]
