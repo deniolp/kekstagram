@@ -44,16 +44,24 @@ var generatePhoto = function (index) {
   };
 };
 
+var createElement = function (element, object) {
+  element = template.cloneNode(true);
+  var img = element.querySelector('img');
+  var photoStat = element.querySelector('.picture__stat--likes');
+  var commentStat = element.querySelector('.picture__stat--comments');
+  img.src = object.url;
+  photoStat.textContent = object.likes;
+  commentStat.textContent = object.comments.length;
+  return element;
+};
+
 for (var i = 0; i < LIMIT_PHOTOS; i++) {
   photoList.push(generatePhoto(i + 1));
-  var photo = template.cloneNode(true);
-  var img = photo.querySelector('img');
-  img.src = photoList[i].url;
-  var photoStat = photo.querySelector('.picture__stat--likes');
-  photoStat.textContent = photoList[i].likes;
-  var commentStat = photo.querySelector('.picture__stat--comments');
-  commentStat.textContent = photoList[i].comments.length;
-  fragment.appendChild(photo);
+}
+
+for (var j = 0; j < photoList.length; j++) {
+  var element = createElement(template, photoList[j]);
+  fragment.appendChild(element);
 }
 
 pictures.appendChild(fragment);
