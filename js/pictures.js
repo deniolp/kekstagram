@@ -60,9 +60,6 @@ var openPicture = function (array) {
   for (var i = 0; i < commentBlock.length; i++) {
     commentBlock[i].innerHTML = '<img class="social__picture" src="img/avatar-' + generateRandomNumber(1, 6) + '.svg"' + 'alt="Аватар комментатора фотографии" width="35" height="35">' + array.comments[i];
   }
-
-  bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
-  bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
 };
 
 var pictureList = [];
@@ -82,3 +79,5 @@ for (var j = 0; j < LIMIT_PICTURES; j++) {
 pictures.appendChild(fragment);
 
 openPicture(pictureList[0]);
+bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
