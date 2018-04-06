@@ -59,7 +59,7 @@ var openPicture = function (picture) {
   commentsBlock.innerHTML = '';
   for (var i = 0; i < picture.comments.length; i++) {
     commentBlock = commentBlockTemplate.cloneNode(true);
-    commentBlock.firstChild.img = 'img/avatar-' + generateRandomNumber(1, 6) + '.svg';
+    commentBlock.querySelector('img').src = 'img/avatar-' + generateRandomNumber(1, 6) + '.svg';
     commentBlock.lastChild.textContent = picture.comments[i];
     fragmentComment.appendChild(commentBlock);
   }
