@@ -59,12 +59,14 @@ var showBigPicture = function (picture) {
   bigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
   bigPicture.querySelector('.likes-count').textContent = picture.likes;
   bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
+
   for (var i = 0; i < picture.comments.length; i++) {
     commentBlock = commentBlockTemplate.cloneNode(true);
     commentBlock.querySelector('img').src = 'img/avatar-' + generateRandomNumber(1, 6) + '.svg';
     commentBlock.lastChild.textContent = picture.comments[i];
     fragmentComment.appendChild(commentBlock);
   }
+
   commentsBlock.innerHTML = '';
   commentsBlock.appendChild(fragmentComment);
 };
