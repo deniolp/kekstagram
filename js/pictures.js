@@ -47,22 +47,25 @@ var createPictureElement = function (template, object) {
   return element;
 };
 
-var openPicture = function (picture) {
+var showBigPicture = function (picture) {
   var commentBlockTemplate = bigPicture.querySelector('.social__comment').cloneNode(true);
   var commentsBlock = bigPicture.querySelector('.social__comments');
   var fragmentComment = document.createDocumentFragment();
   var commentBlock;
 
+  bigPicture.classList.remove('hidden');
+  bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+  bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
   bigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
   bigPicture.querySelector('.likes-count').textContent = picture.likes;
   bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
-  commentsBlock.innerHTML = '';
   for (var i = 0; i < picture.comments.length; i++) {
     commentBlock = commentBlockTemplate.cloneNode(true);
     commentBlock.querySelector('img').src = 'img/avatar-' + generateRandomNumber(1, 6) + '.svg';
     commentBlock.lastChild.textContent = picture.comments[i];
     fragmentComment.appendChild(commentBlock);
   }
+  commentsBlock.innerHTML = '';
   commentsBlock.appendChild(fragmentComment);
 };
 
@@ -82,7 +85,4 @@ for (var j = 0; j < LIMIT_PICTURES; j++) {
 
 pictures.appendChild(fragment);
 
-openPicture(pictureList[0]);
-bigPicture.classList.remove('hidden');
-bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
-bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
+showBigPicture(pictureList[0]);
