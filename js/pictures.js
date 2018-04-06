@@ -82,7 +82,7 @@ for (var j = 0; j < LIMIT_PICTURES; j++) {
 
 pictures.appendChild(fragment);
 
-openPicture(pictureList[5]);
+openPicture(pictureList[0]);
 bigPicture.classList.remove('hidden');
 bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
 bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
