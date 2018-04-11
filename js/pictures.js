@@ -18,6 +18,7 @@ var DESCRIPTION_LIST = [
   'Вот это тачка!'
 ];
 var EFFECTS = [
+  'none',
   'chrome',
   'sepia',
   'marvin',
@@ -106,6 +107,14 @@ var closePopup = function () {
 };
 
 var getEffect = function (effect) {
+  var effectFilters = [
+    '',
+    'grayscale(' + effectIntensity / 100 + ')',
+    'sepia(' + effectIntensity / 100 + ')',
+    'invert(' + effectIntensity + '%)',
+    'blur(' + effectIntensity * 0.03 + 'px)',
+    'brightness(' + (effectIntensity * 0.02 + 1) + ')'
+  ];
   for (var i = 0; i < EFFECTS.length; i++) {
     if (effect === EFFECTS[i]) {
       var effectFilter = effectFilters[i];
@@ -115,8 +124,9 @@ var getEffect = function (effect) {
 };
 
 var getEffectIntensity = function (value) {
-  scaleValueInputElement.value = value - (document.documentElement.clientWidth - 453) / 2;
-  effectIntensity = Math.floor(scaleValueInputElement.value / 4.53);
+  var pinPosition = value - (document.documentElement.clientWidth - 453) / 2;
+  effectIntensity = Math.floor(pinPosition / 4.53);
+  scaleValueInputElement.value = effectIntensity;
   return effectIntensity;
 };
 
@@ -139,14 +149,8 @@ var effectHeatElement = uploadFormElement.querySelector('#effect-heat');
 var scalePinElement = uploadFormElement.querySelector('.scale__pin');
 var scaleValueInputElement = uploadFormElement.querySelector('.scale__value');
 // var scaleLevelElement = uploadFormElement.querySelector('.scale__level');
-var effectIntensity = 20;
-var effectFilters = [
-  'grayscale(' + effectIntensity / 100 + ')',
-  'sepia(' + effectIntensity / 100 + ')',
-  'invert(' + effectIntensity + '%)',
-  'blur(' + effectIntensity * 0.03 + 'px)',
-  'brightness(' + (effectIntensity * 0.02 + 1) + ')'
-];
+var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
+var effectIntensity;
 
 for (var i = 0; i < LIMIT_PICTURES; i++) {
   pictureList.push(generatePicture(i + 1));
@@ -176,12 +180,19 @@ uploadImageCancelElement.addEventListener('keydown', function (evt) {
 
 effectNoneElement.addEventListener('click', function () {
   imgPreviewElement.className = 'img-upload__preview';
-  imgPreviewElement.style.filter = '';
+  scaleElement.classList.add('hidden');
+  imgPreviewElement.style.filter = getEffect('none');
+
+  scalePinElement.addEventListener('mouseup', function (evt) {
+    getEffectIntensity(evt.clientX);
+    imgPreviewElement.style.filter = getEffect('none');
+  });
 });
 
 effectChromeElement.addEventListener('click', function () {
   addEffectPreview('chrome');
-  imgPreviewElement.style.filter = getEffect('chrome');
+  scaleElement.classList.remove('hidden');
+  imgPreviewElement.style.filter = 'grayscale(' + 100 + ')';
 
   scalePinElement.addEventListener('mouseup', function (evt) {
     getEffectIntensity(evt.clientX);
@@ -191,7 +202,8 @@ effectChromeElement.addEventListener('click', function () {
 
 effectSepiaElement.addEventListener('click', function () {
   addEffectPreview('sepia');
-  imgPreviewElement.style.filter = getEffect('sepia');
+  scaleElement.classList.remove('hidden');
+  imgPreviewElement.style.filter = 'sepia(' + 100 + ')';
 
   scalePinElement.addEventListener('mouseup', function (evt) {
     getEffectIntensity(evt.clientX);
@@ -201,7 +213,8 @@ effectSepiaElement.addEventListener('click', function () {
 
 effectMarvinElement.addEventListener('click', function () {
   addEffectPreview('marvin');
-  imgPreviewElement.style.filter = getEffect('marvin');
+  scaleElement.classList.remove('hidden');
+  imgPreviewElement.style.filter = 'invert(' + 100 + '%)';
 
   scalePinElement.addEventListener('mouseup', function (evt) {
     getEffectIntensity(evt.clientX);
@@ -211,7 +224,8 @@ effectMarvinElement.addEventListener('click', function () {
 
 effectPhobosElement.addEventListener('click', function () {
   addEffectPreview('phobos');
-  imgPreviewElement.style.filter = getEffect('phobos');
+  scaleElement.classList.remove('hidden');
+  imgPreviewElement.style.filter = 'blur(' + 3 + 'px)';
 
   scalePinElement.addEventListener('mouseup', function (evt) {
     getEffectIntensity(evt.clientX);
@@ -221,7 +235,8 @@ effectPhobosElement.addEventListener('click', function () {
 
 effectHeatElement.addEventListener('click', function () {
   addEffectPreview('heat');
-  imgPreviewElement.style.filter = getEffect('heat');
+  scaleElement.classList.remove('hidden');
+  imgPreviewElement.style.filter = 'brightness(' + 3 + ')';
 
   scalePinElement.addEventListener('mouseup', function (evt) {
     getEffectIntensity(evt.clientX);
