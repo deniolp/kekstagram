@@ -58,7 +58,7 @@ var createPictureElement = function (template, object) {
   return element;
 };
 
-var showBigPicture = function (url, likesQuantity, commentsQuantity) {
+var showBigPicture = function (url, likesQuantity, commentsQuantity, object) {
   var commentBlockTemplate = bigPicture.querySelector('.social__comment').cloneNode(true);
   var commentsBlock = bigPicture.querySelector('.social__comments');
   var fragmentComment = document.createDocumentFragment();
@@ -74,7 +74,7 @@ var showBigPicture = function (url, likesQuantity, commentsQuantity) {
   for (var i = 0; i < commentsQuantity; i++) {
     commentBlock = commentBlockTemplate.cloneNode(true);
     commentBlock.querySelector('img').src = 'img/avatar-' + generateRandomNumber(1, 6) + '.svg';
-    commentBlock.lastChild.textContent = COMMENTS_LIST[generateRandomNumber(1, 6)];
+    commentBlock.lastChild.textContent = object.comments[i];
     fragmentComment.appendChild(commentBlock);
   }
 
@@ -83,13 +83,12 @@ var showBigPicture = function (url, likesQuantity, commentsQuantity) {
 };
 
 var onPictureClick = function (evt) {
-  evt.preventDefault();
-
   var src = evt.target.src;
-  var comments = evt.target.nextElementSibling.firstElementChild.textContent;
+  var commentsQuantity = evt.target.nextElementSibling.firstElementChild.textContent;
   var likes = evt.target.nextElementSibling.lastElementChild.textContent;
+  var comments = pictureList[0];
 
-  showBigPicture(src, likes, comments);
+  showBigPicture(src, likes, commentsQuantity, comments);
 };
 
 var addEffectPreview = function (effect) {
