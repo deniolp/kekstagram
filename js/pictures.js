@@ -114,9 +114,10 @@ var getEffect = function (effect) {
   } return effectFilter;
 };
 
-var onScalePinElementMouseup = function (evt) {
-  scaleValueInputElement.value = evt.clientX - (document.documentElement.clientWidth - 453) / 2;
+var getEffectIntensity = function (value) {
+  scaleValueInputElement.value = value - (document.documentElement.clientWidth - 453) / 2;
   effectIntensity = Math.floor(scaleValueInputElement.value / 4.53);
+  return effectIntensity;
 };
 
 var pictureList = [];
@@ -179,35 +180,50 @@ effectNoneElement.addEventListener('click', function () {
 
 effectChromeElement.addEventListener('click', function () {
   addEffectPreview('chrome');
-  effectChromeElement.style.filter = getEffect('chrome');
+  imgPreviewElement.style.filter = getEffect('chrome');
 
-  scalePinElement.addEventListener('mouseup', onScalePinElementMouseup);
+  scalePinElement.addEventListener('mouseup', function (evt) {
+    getEffectIntensity(evt.clientX);
+    imgPreviewElement.style.filter = getEffect('chrome');
+  });
 });
 
 effectSepiaElement.addEventListener('click', function () {
   addEffectPreview('sepia');
-  effectSepiaElement.style.filter = getEffect('sepia');
+  imgPreviewElement.style.filter = getEffect('sepia');
 
-  scalePinElement.addEventListener('mouseup', onScalePinElementMouseup);
+  scalePinElement.addEventListener('mouseup', function (evt) {
+    getEffectIntensity(evt.clientX);
+    imgPreviewElement.style.filter = getEffect('sepia');
+  });
 });
 
 effectMarvinElement.addEventListener('click', function () {
   addEffectPreview('marvin');
-  effectMarvinElement.style.filter = getEffect('marvin');
+  imgPreviewElement.style.filter = getEffect('marvin');
 
-  scalePinElement.addEventListener('mouseup', onScalePinElementMouseup);
+  scalePinElement.addEventListener('mouseup', function (evt) {
+    getEffectIntensity(evt.clientX);
+    imgPreviewElement.style.filter = getEffect('marvin');
+  });
 });
 
 effectPhobosElement.addEventListener('click', function () {
   addEffectPreview('phobos');
-  effectPhobosElement.style.filter = getEffect('phobos');
+  imgPreviewElement.style.filter = getEffect('phobos');
 
-  scalePinElement.addEventListener('mouseup', onScalePinElementMouseup);
+  scalePinElement.addEventListener('mouseup', function (evt) {
+    getEffectIntensity(evt.clientX);
+    imgPreviewElement.style.filter = getEffect('phobos');
+  });
 });
 
 effectHeatElement.addEventListener('click', function () {
   addEffectPreview('heat');
-  effectPhobosElement.style.filter = getEffect('heat');
+  imgPreviewElement.style.filter = getEffect('heat');
 
-  scalePinElement.addEventListener('mouseup', onScalePinElementMouseup);
+  scalePinElement.addEventListener('mouseup', function (evt) {
+    getEffectIntensity(evt.clientX);
+    imgPreviewElement.style.filter = getEffect('heat');
+  });
 });
