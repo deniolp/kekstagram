@@ -17,6 +17,9 @@ var DESCRIPTION_LIST = [
   'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
   'Вот это тачка!'
 ];
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
 
 var generateRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -71,6 +74,25 @@ var showBigPicture = function (picture) {
   commentsBlock.appendChild(fragmentComment);
 };
 
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  uploadImageElement.classList.remove('hidden');
+
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  uploadImageElement.classList.add('hidden');
+
+  document.removeEventListener('keydown', onPopupEscPress);
+  uploadFileInputElement.value = '';
+};
+
 var pictureList = [];
 var pictureTemplate = document.querySelector('#picture').content.querySelector('a');
 var pictures = document.querySelector('.pictures');
@@ -79,6 +101,7 @@ var bigPicture = document.querySelector('.big-picture');
 var uploadFormElement = document.querySelector('.img-upload__form');
 var uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
 var uploadImageElement = uploadFormElement.querySelector('.img-upload__overlay');
+var uploadImageCancelElement = uploadFormElement.querySelector('.img-upload__cancel');
 
 for (var i = 0; i < LIMIT_PICTURES; i++) {
   pictureList.push(generatePicture(i + 1));
@@ -93,5 +116,15 @@ pictures.appendChild(fragment);
 // showBigPicture(pictureList[0]);
 
 uploadFileInputElement.addEventListener('change', function () {
-  uploadImageElement.classList.remove('hidden');
+  openPopup();
+});
+
+uploadImageCancelElement.addEventListener('click', function () {
+  closePopup();
+});
+
+uploadImageCancelElement.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
 });
