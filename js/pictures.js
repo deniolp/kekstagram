@@ -50,29 +50,29 @@ var createPictureElement = function (template, object) {
   return element;
 };
 
-var showBigPicture = function (picture) {
-  var commentBlockTemplate = bigPicture.querySelector('.social__comment').cloneNode(true);
-  var commentsBlock = bigPicture.querySelector('.social__comments');
-  var fragmentComment = document.createDocumentFragment();
-  var commentBlock;
-
-  bigPicture.classList.remove('hidden');
-  bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
-  bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
-  bigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
-  bigPicture.querySelector('.likes-count').textContent = picture.likes;
-  bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
-
-  for (var i = 0; i < picture.comments.length; i++) {
-    commentBlock = commentBlockTemplate.cloneNode(true);
-    commentBlock.querySelector('img').src = 'img/avatar-' + generateRandomNumber(1, 6) + '.svg';
-    commentBlock.lastChild.textContent = picture.comments[i];
-    fragmentComment.appendChild(commentBlock);
-  }
-
-  commentsBlock.innerHTML = '';
-  commentsBlock.appendChild(fragmentComment);
-};
+// var showBigPicture = function (picture) {
+//   var commentBlockTemplate = bigPicture.querySelector('.social__comment').cloneNode(true);
+//   var commentsBlock = bigPicture.querySelector('.social__comments');
+//   var fragmentComment = document.createDocumentFragment();
+//   var commentBlock;
+//
+//   bigPicture.classList.remove('hidden');
+//   bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+//   bigPicture.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
+//   bigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
+//   bigPicture.querySelector('.likes-count').textContent = picture.likes;
+//   bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
+//
+//   for (var i = 0; i < picture.comments.length; i++) {
+//     commentBlock = commentBlockTemplate.cloneNode(true);
+//     commentBlock.querySelector('img').src = 'img/avatar-' + generateRandomNumber(1, 6) + '.svg';
+//     commentBlock.lastChild.textContent = picture.comments[i];
+//     fragmentComment.appendChild(commentBlock);
+//   }
+//
+//   commentsBlock.innerHTML = '';
+//   commentsBlock.appendChild(fragmentComment);
+// };
 
 var addEffectPreview = function (effect) {
   imgPreviewElement.className = 'img-upload__preview';
@@ -102,7 +102,7 @@ var pictureList = [];
 var pictureTemplate = document.querySelector('#picture').content.querySelector('a');
 var pictures = document.querySelector('.pictures');
 var fragment = document.createDocumentFragment();
-var bigPicture = document.querySelector('.big-picture');
+// var bigPicture = document.querySelector('.big-picture');
 var uploadFormElement = document.querySelector('.img-upload__form');
 var uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
 var uploadImageElement = uploadFormElement.querySelector('.img-upload__overlay');
@@ -116,7 +116,7 @@ var effectPhobosElement = uploadFormElement.querySelector('#effect-phobos');
 var effectHeatElement = uploadFormElement.querySelector('#effect-heat');
 var scalePinElement = uploadFormElement.querySelector('.scale__pin');
 var scaleValueInputElement = uploadFormElement.querySelector('.scale__value');
-var scaleLevelElement = uploadFormElement.querySelector('.scale__level');
+// var scaleLevelElement = uploadFormElement.querySelector('.scale__level');
 var effectIntensity = 20;
 
 for (var i = 0; i < LIMIT_PICTURES; i++) {
