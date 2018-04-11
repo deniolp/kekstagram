@@ -76,6 +76,9 @@ var pictureTemplate = document.querySelector('#picture').content.querySelector('
 var pictures = document.querySelector('.pictures');
 var fragment = document.createDocumentFragment();
 var bigPicture = document.querySelector('.big-picture');
+var uploadFormElement = document.querySelector('.img-upload__form');
+var uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
+var uploadImageElement = uploadFormElement.querySelector('.img-upload__overlay');
 
 for (var i = 0; i < LIMIT_PICTURES; i++) {
   pictureList.push(generatePicture(i + 1));
@@ -87,4 +90,8 @@ for (var j = 0; j < LIMIT_PICTURES; j++) {
 
 pictures.appendChild(fragment);
 
-showBigPicture(pictureList[0]);
+// showBigPicture(pictureList[0]);
+
+uploadFileInputElement.addEventListener('change', function () {
+  uploadImageElement.classList.remove('hidden');
+});
