@@ -176,6 +176,7 @@ uploadImageCancelElement.addEventListener('keydown', function (evt) {
 
 effectNoneElement.addEventListener('click', function () {
   imgPreviewElement.className = 'img-upload__preview';
+  imgPreviewElement.style.filter = '';
 });
 
 effectChromeElement.addEventListener('click', function () {
