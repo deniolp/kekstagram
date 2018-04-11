@@ -150,7 +150,11 @@ var scalePinElement = uploadFormElement.querySelector('.scale__pin');
 var scaleValueInputElement = uploadFormElement.querySelector('.scale__value');
 // var scaleLevelElement = uploadFormElement.querySelector('.scale__level');
 var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
+var resizeButtonMinus = uploadFormElement.querySelector('.resize__control--minus');
+var resizeButtonPlus = uploadFormElement.querySelector('.resize__control--plus');
+var resizeValue = uploadFormElement.querySelector('.resize__control--value');
 var effectIntensity;
+resizeValue.value = '100%';
 
 for (var i = 0; i < LIMIT_PICTURES; i++) {
   pictureList.push(generatePicture(i + 1));
@@ -242,4 +246,16 @@ effectHeatElement.addEventListener('click', function () {
     getEffectIntensity(evt.clientX);
     imgPreviewElement.style.filter = getEffect('heat');
   });
+});
+
+resizeButtonMinus.addEventListener('click', function () {
+  if (parseInt(resizeValue.value, 10) >= 50) {
+    resizeValue.value = parseInt(resizeValue.value, 10) - 25 + '%';
+  }
+});
+
+resizeButtonPlus.addEventListener('click', function () {
+  if (parseInt(resizeValue.value, 10) <= 75) {
+    resizeValue.value = parseInt(resizeValue.value, 10) + 25 + '%';
+  }
 });
