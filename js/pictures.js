@@ -251,11 +251,15 @@ effectHeatElement.addEventListener('click', function () {
 resizeButtonMinus.addEventListener('click', function () {
   if (parseInt(resizeValue.value, 10) >= 50) {
     resizeValue.value = parseInt(resizeValue.value, 10) - 25 + '%';
+    imgPreviewElement.style.transform = 'scale(' + parseInt(resizeValue.value, 10) / 100 + ')';
   }
 });
 
 resizeButtonPlus.addEventListener('click', function () {
   if (parseInt(resizeValue.value, 10) <= 75) {
     resizeValue.value = parseInt(resizeValue.value, 10) + 25 + '%';
+    imgPreviewElement.style.transform = 'scale(' + parseInt(resizeValue.value, 10) / 100 + ')';
+  } if (parseInt(resizeValue.value, 10) === 100) {
+    imgPreviewElement.style.transform = '';
   }
 });
