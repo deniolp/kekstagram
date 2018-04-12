@@ -91,11 +91,6 @@ var onPictureClick = function (evt) {
   showBigPicture(src, likes, commentsQuantity, comments);
 };
 
-var addEffectPreview = function (effect) {
-  imgPreviewElement.className = 'img-upload__preview';
-  imgPreviewElement.classList.add('effects__preview--' + effect);
-};
-
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
@@ -115,7 +110,41 @@ var closePopup = function () {
   uploadFileInputElement.value = '';
 };
 
-var getEffect = function (effect) {
+var createEffectHandler = function (effectName) {
+  return function () {
+    imgPreviewElement.className = 'img-upload__preview effects__preview--' + effectName;
+    if (effectName === 'none') {
+      scaleElement.classList.add('hidden');
+    } else {
+      scaleElement.classList.remove('hidden');
+    }
+    imgPreviewElement.style.filter = createDefaultStyleEffect(effectName);
+
+    scalePinElement.addEventListener('mouseup', function (evt) {
+      getEffectIntensity(evt.clientX);
+      imgPreviewElement.style.filter = createStyleEffect(effectName);
+    });
+  };
+};
+
+var createDefaultStyleEffect = function (effect) {
+  var effects = [
+    '',
+    'grayscale(1)',
+    'sepia(1)',
+    'invert(100%)',
+    'blur(3px)',
+    'brightness(3)'
+  ];
+  for (var k = 0; k < EFFECTS.length; k++) {
+    if (effect === EFFECTS[k]) {
+      var effectFilter = effects[k];
+      break;
+    }
+  } return effectFilter;
+};
+
+var createStyleEffect = function (effect) {
   var effectFilters = [
     '',
     'grayscale(' + effectIntensity / 100 + ')',
@@ -206,71 +235,24 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
-effectNoneElement.addEventListener('click', function () {
-  imgPreviewElement.className = 'img-upload__preview';
-  scaleElement.classList.add('hidden');
-  imgPreviewElement.style.filter = getEffect('none');
+scaleElement.classList.add('hidden');
+effectNoneElement.addEventListener('click', createEffectHandler('none'));
+effectChromeElement.addEventListener('click', createEffectHandler('chrome'));
+effectSepiaElement.addEventListener('click', createEffectHandler('sepia'));
+effectMarvinElement.addEventListener('click', createEffectHandler('marvin'));
+effectPhobosElement.addEventListener('click', createEffectHandler('phobos'));
+effectHeatElement.addEventListener('click', createEffectHandler('heat'));
 
-  scalePinElement.addEventListener('mouseup', function (evt) {
-    getEffectIntensity(evt.clientX);
-    imgPreviewElement.style.filter = getEffect('none');
-  });
-});
-
-effectChromeElement.addEventListener('click', function () {
-  addEffectPreview('chrome');
-  scaleElement.classList.remove('hidden');
-  imgPreviewElement.style.filter = 'grayscale(' + 100 + ')';
-
-  scalePinElement.addEventListener('mouseup', function (evt) {
-    getEffectIntensity(evt.clientX);
-    imgPreviewElement.style.filter = getEffect('chrome');
-  });
-});
-
-effectSepiaElement.addEventListener('click', function () {
-  addEffectPreview('sepia');
-  scaleElement.classList.remove('hidden');
-  imgPreviewElement.style.filter = 'sepia(' + 100 + ')';
-
-  scalePinElement.addEventListener('mouseup', function (evt) {
-    getEffectIntensity(evt.clientX);
-    imgPreviewElement.style.filter = getEffect('sepia');
-  });
-});
-
-effectMarvinElement.addEventListener('click', function () {
-  addEffectPreview('marvin');
-  scaleElement.classList.remove('hidden');
-  imgPreviewElement.style.filter = 'invert(' + 100 + '%)';
-
-  scalePinElement.addEventListener('mouseup', function (evt) {
-    getEffectIntensity(evt.clientX);
-    imgPreviewElement.style.filter = getEffect('marvin');
-  });
-});
-
-effectPhobosElement.addEventListener('click', function () {
-  addEffectPreview('phobos');
-  scaleElement.classList.remove('hidden');
-  imgPreviewElement.style.filter = 'blur(' + 3 + 'px)';
-
-  scalePinElement.addEventListener('mouseup', function (evt) {
-    getEffectIntensity(evt.clientX);
-    imgPreviewElement.style.filter = getEffect('phobos');
-  });
-});
-
-effectHeatElement.addEventListener('click', function () {
-  addEffectPreview('heat');
-  scaleElement.classList.remove('hidden');
-  imgPreviewElement.style.filter = 'brightness(' + 3 + ')';
-
-  scalePinElement.addEventListener('mouseup', function (evt) {
-    getEffectIntensity(evt.clientX);
-    imgPreviewElement.style.filter = getEffect('heat');
-  });
-});
+// effectNoneElement.addEventListener('click', function () {
+//   imgPreviewElement.className = 'img-upload__preview';
+//   scaleElement.classList.add('hidden');
+//   imgPreviewElement.style.filter = createStyleEffect('none');
+//
+//   scalePinElement.addEventListener('mouseup', function (evt) {
+//     getEffectIntensity(evt.clientX);
+//     imgPreviewElement.style.filter = createStyleEffect('none');
+//   });
+// });
 
 resizeButtonMinus.addEventListener('click', function () {
   if (parseInt(resizeValue.value, 10) >= 50) {
