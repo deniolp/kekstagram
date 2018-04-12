@@ -110,13 +110,13 @@ var closePopup = function () {
   uploadFileInputElement.value = '';
 };
 
-var createEffectHandler = function (effectName) {
+var createEffectHandler = function (effectName, previewElement, scale) {
   return function () {
-    imgPreviewElement.className = 'img-upload__preview effects__preview--' + effectName;
+    previewElement.className = 'img-upload__preview effects__preview--' + effectName;
     if (effectName === 'none') {
-      scaleElement.classList.add('hidden');
+      scale.classList.add('hidden');
     } else {
-      scaleElement.classList.remove('hidden');
+      scale.classList.remove('hidden');
     }
     imgPreviewElement.style.filter = createDefaultStyleEffect(effectName);
 
@@ -236,23 +236,13 @@ document.addEventListener('keydown', function (evt) {
 });
 
 scaleElement.classList.add('hidden');
-effectNoneElement.addEventListener('click', createEffectHandler('none'));
-effectChromeElement.addEventListener('click', createEffectHandler('chrome'));
-effectSepiaElement.addEventListener('click', createEffectHandler('sepia'));
-effectMarvinElement.addEventListener('click', createEffectHandler('marvin'));
-effectPhobosElement.addEventListener('click', createEffectHandler('phobos'));
-effectHeatElement.addEventListener('click', createEffectHandler('heat'));
+effectNoneElement.addEventListener('click', createEffectHandler('none', imgPreviewElement, scaleElement));
+effectChromeElement.addEventListener('click', createEffectHandler('chrome', imgPreviewElement, scaleElement));
+effectSepiaElement.addEventListener('click', createEffectHandler('sepia', imgPreviewElement, scaleElement));
+effectMarvinElement.addEventListener('click', createEffectHandler('marvin', imgPreviewElement, scaleElement));
+effectPhobosElement.addEventListener('click', createEffectHandler('phobos', imgPreviewElement, scaleElement));
+effectHeatElement.addEventListener('click', createEffectHandler('heat', imgPreviewElement, scaleElement));
 
-// effectNoneElement.addEventListener('click', function () {
-//   imgPreviewElement.className = 'img-upload__preview';
-//   scaleElement.classList.add('hidden');
-//   imgPreviewElement.style.filter = createStyleEffect('none');
-//
-//   scalePinElement.addEventListener('mouseup', function (evt) {
-//     getEffectIntensity(evt.clientX);
-//     imgPreviewElement.style.filter = createStyleEffect('none');
-//   });
-// });
 
 resizeButtonMinus.addEventListener('click', function () {
   if (parseInt(resizeValue.value, 10) >= 50) {
