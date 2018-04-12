@@ -50,7 +50,7 @@ var createPictureElement = function (template, object) {
   return element;
 };
 
-var createPictureClickHandler = function (data, element) {
+var onPictureClick = function (data, element) {
   return function () {
     showPicture(data, element);
   };
@@ -99,7 +99,7 @@ var closePopup = function () {
   uploadFileInputElement.value = '';
 };
 
-var createEffectHandler = function (effectName, previewElement, scale, pin) {
+var onEffectClick = function (effectName, previewElement, scale, pin) {
   return function () {
     previewElement.className = 'img-upload__preview effects__preview--' + effectName;
     if (effectName === 'none') {
@@ -211,7 +211,7 @@ pictures.appendChild(fragment);
 var picturesContainer = pictures.querySelectorAll('.picture__img');
 
 for (i = 0; i < LIMIT_PICTURES; i++) {
-  picturesContainer[i].addEventListener('click', createPictureClickHandler(pictureList[i], bigPictureElement));
+  picturesContainer[i].addEventListener('click', onPictureClick(pictureList[i], bigPictureElement));
 }
 
 uploadFileInputElement.addEventListener('change', function () {
@@ -239,12 +239,12 @@ document.addEventListener('keydown', function (evt) {
 });
 
 scaleElement.classList.add('hidden');
-effectNoneElement.addEventListener('click', createEffectHandler('none', imgPreviewElement, scaleElement, scalePinElement));
-effectChromeElement.addEventListener('click', createEffectHandler('chrome', imgPreviewElement, scaleElement, scalePinElement));
-effectSepiaElement.addEventListener('click', createEffectHandler('sepia', imgPreviewElement, scaleElement, scalePinElement));
-effectMarvinElement.addEventListener('click', createEffectHandler('marvin', imgPreviewElement, scaleElement, scalePinElement));
-effectPhobosElement.addEventListener('click', createEffectHandler('phobos', imgPreviewElement, scaleElement, scalePinElement));
-effectHeatElement.addEventListener('click', createEffectHandler('heat', imgPreviewElement, scaleElement, scalePinElement));
+effectNoneElement.addEventListener('click', onEffectClick('none', imgPreviewElement, scaleElement, scalePinElement));
+effectChromeElement.addEventListener('click', onEffectClick('chrome', imgPreviewElement, scaleElement, scalePinElement));
+effectSepiaElement.addEventListener('click', onEffectClick('sepia', imgPreviewElement, scaleElement, scalePinElement));
+effectMarvinElement.addEventListener('click', onEffectClick('marvin', imgPreviewElement, scaleElement, scalePinElement));
+effectPhobosElement.addEventListener('click', onEffectClick('phobos', imgPreviewElement, scaleElement, scalePinElement));
+effectHeatElement.addEventListener('click', onEffectClick('heat', imgPreviewElement, scaleElement, scalePinElement));
 
 
 resizeButtonMinus.addEventListener('click', function () {
