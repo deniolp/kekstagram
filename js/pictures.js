@@ -118,11 +118,11 @@ var createEffectHandler = function (effectName, previewElement, scale) {
     } else {
       scale.classList.remove('hidden');
     }
-    imgPreviewElement.style.filter = createDefaultStyleEffect(effectName);
+    previewElement.style.filter = createDefaultStyleEffect(effectName);
 
     scalePinElement.addEventListener('mouseup', function (evt) {
       getEffectIntensity(evt.clientX);
-      imgPreviewElement.style.filter = createStyleEffect(effectName);
+      previewElement.style.filter = createStyleEffect(effectName);
     });
   };
 };
