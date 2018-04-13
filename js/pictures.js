@@ -200,6 +200,10 @@ var resizeButtonPlus = uploadFormElement.querySelector('.resize__control--plus')
 var resizeValue = uploadFormElement.querySelector('.resize__control--value');
 var bigPictureCancelElement = bigPictureElement.querySelector('#picture-cancel');
 
+var hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
+var commentTextareaElement = uploadFormElement.querySelector('.text__description');
+var submitPictureElement = uploadFormElement.querySelector('.img-upload__submit');
+
 var fragment = document.createDocumentFragment();
 var effectIntensity;
 var picture;
@@ -266,4 +270,59 @@ resizeButtonPlus.addEventListener('click', function () {
   } if (parseInt(resizeValue.value, 10) === 100) {
     previewElement.style.transform = '';
   }
+});
+
+var testHashtags = function () {
+  var hashtags = hashtagInputElement.value.toLowerCase().trim();
+  var arrayForTest = hashtags.split(' ');
+  var arrayOne = [];
+  var arrayTwo = [];
+
+  if (arrayForTest.length > 5) {
+    hashtagInputElement.setCustomValidity('У вас слишком много хэштегов, можно не больше 5');
+    return;
+  } else {
+    hashtagInputElement.setCustomValidity('');
+  }
+
+  for (var m = 0; m < arrayForTest.length; m++) {
+    if (arrayForTest[m].charAt(0) !== '#') {
+      hashtagInputElement.setCustomValidity('Каждый хэштег должен начинаться с символа #');
+    } else if (arrayForTest[m].length > 20 || arrayForTest[m].length === 1) {
+      hashtagInputElement.setCustomValidity('Хэштег не должн быть длиннее 20 и короче 2 символов');
+    } else {
+      hashtagInputElement.setCustomValidity('');
+    }
+  }
+
+  for (var l = 0; l < arrayForTest.length; l++) {
+    if (arrayOne.includes(arrayForTest[l]) && !arrayTwo.includes(arrayForTest[l])) {
+      arrayTwo.push(arrayForTest[l]);
+    } else {
+      arrayOne.push(arrayForTest[l]);
+    }
+  }
+  if (arrayTwo.length > 0) {
+    hashtagInputElement.setCustomValidity('Пожалуйста, уберите повторяющийся хэштег');
+  }
+};
+
+hashtagInputElement.addEventListener('focus', function () {
+  document.removeEventListener('keydown', popupEscPressHandler);
+});
+
+hashtagInputElement.addEventListener('focusout', function () {
+  document.addEventListener('keydown', popupEscPressHandler);
+});
+
+commentTextareaElement.addEventListener('focus', function () {
+  document.removeEventListener('keydown', popupEscPressHandler);
+});
+
+commentTextareaElement.addEventListener('focusout', function () {
+  document.addEventListener('keydown', popupEscPressHandler);
+});
+
+submitPictureElement.addEventListener('click', function () {
+  testHashtags();
 });

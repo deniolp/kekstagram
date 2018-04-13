@@ -818,6 +818,11 @@ main {
   border-radius: 5px;
 }
 
+.text__hashtags:invalid {
+  border: solid 2px red;
+  outline: none;
+}
+
 .text__description {
   width: 450px;
   height: 100px;
