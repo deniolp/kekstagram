@@ -272,26 +272,25 @@ resizeButtonPlus.addEventListener('click', function () {
   }
 });
 
-var testHashtags = function () {
+var validateHashtags = function () {
   var hashtags = hashtagInputElement.value.toLowerCase().trim();
   var arrayForTest = hashtags.split(' ');
   var arrayOne = [];
   var arrayTwo = [];
+  hashtagInputElement.setCustomValidity('');
 
   if (arrayForTest.length > 5) {
     hashtagInputElement.setCustomValidity('У вас слишком много хэштегов, можно не больше 5');
     return;
-  } else {
-    hashtagInputElement.setCustomValidity('');
   }
 
   for (var m = 0; m < arrayForTest.length; m++) {
     if (arrayForTest[m].charAt(0) !== '#') {
       hashtagInputElement.setCustomValidity('Каждый хэштег должен начинаться с символа #');
+      return;
     } else if (arrayForTest[m].length > 20 || arrayForTest[m].length === 1) {
-      hashtagInputElement.setCustomValidity('Хэштег не должн быть длиннее 20 и короче 2 символов');
-    } else {
-      hashtagInputElement.setCustomValidity('');
+      hashtagInputElement.setCustomValidity('Хэштег не должен быть длиннее 20 и короче 2 символов');
+      return;
     }
   }
 
@@ -304,6 +303,7 @@ var testHashtags = function () {
   }
   if (arrayTwo.length > 0) {
     hashtagInputElement.setCustomValidity('Пожалуйста, уберите повторяющийся хэштег');
+    return;
   }
 };
 
@@ -324,5 +324,5 @@ commentTextareaElement.addEventListener('focusout', function () {
 });
 
 submitPictureElement.addEventListener('click', function () {
-  testHashtags();
+  validateHashtags();
 });
