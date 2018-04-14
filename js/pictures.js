@@ -274,34 +274,34 @@ resizeButtonPlus.addEventListener('click', function () {
 
 var validateHashtags = function () {
   var hashtags = hashtagInputElement.value.toLowerCase().trim();
-  var arrayForTest = hashtags.split(' ');
-  var arrayWithDoubleHashtags = [];
-  var arrayForTestDoubleHashtags = [];
+  var hashtagsForTest = hashtags.split(' ');
+  var doubleHashtags = [];
+  var testDoubleHashtags = [];
   hashtagInputElement.setCustomValidity('');
 
-  if (arrayForTest.length > 5) {
+  if (hashtagsForTest.length > 5) {
     hashtagInputElement.setCustomValidity('У вас слишком много хэштегов, можно не больше 5');
     return;
   }
 
-  for (var m = 0; m < arrayForTest.length; m++) {
-    if (arrayForTest[m].charAt(0) !== '#') {
+  for (var m = 0; m < hashtagsForTest.length; m++) {
+    if (hashtagsForTest[m].charAt(0) !== '#') {
       hashtagInputElement.setCustomValidity('Каждый хэштег должен начинаться с символа #');
       return;
-    } else if (arrayForTest[m].length > 20 || arrayForTest[m].length === 1) {
+    } else if (hashtagsForTest[m].length > 20 || hashtagsForTest[m].length === 1) {
       hashtagInputElement.setCustomValidity('Хэштег не должен быть длиннее 20 и короче 2 символов');
       return;
     }
   }
 
-  for (var l = 0; l < arrayForTest.length; l++) {
-    if (arrayForTestDoubleHashtags.includes(arrayForTest[l]) && !arrayWithDoubleHashtags.includes(arrayForTest[l])) {
-      arrayWithDoubleHashtags.push(arrayForTest[l]);
+  for (var l = 0; l < hashtagsForTest.length; l++) {
+    if (testDoubleHashtags.includes(hashtagsForTest[l]) && !doubleHashtags.includes(hashtagsForTest[l])) {
+      doubleHashtags.push(hashtagsForTest[l]);
     } else {
-      arrayForTestDoubleHashtags.push(arrayForTest[l]);
+      testDoubleHashtags.push(hashtagsForTest[l]);
     }
   }
-  if (arrayWithDoubleHashtags.length > 0) {
+  if (doubleHashtags.length > 0) {
     hashtagInputElement.setCustomValidity('Пожалуйста, уберите повторяющийся хэштег');
     return;
   }
