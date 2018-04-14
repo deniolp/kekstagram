@@ -326,3 +326,28 @@ commentTextareaElement.addEventListener('focusout', function () {
 submitPictureElement.addEventListener('click', function () {
   validateHashtags();
 });
+
+scalePinElement.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoordX = evt.clientX;
+
+  var mouseMoveHanlder = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shiftX = startCoordX - moveEvt.clientX;
+
+    startCoordX = moveEvt.clientX;
+    scalePinElement.style.left = (scalePinElement.offsetLeft - shiftX) + 'px';
+  };
+
+  var mouseUpHanlder = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', mouseMoveHanlder);
+    document.removeEventListener('mouseup', mouseUpHanlder);
+  };
+
+  document.addEventListener('mousemove', mouseMoveHanlder);
+  document.addEventListener('mouseup', mouseUpHanlder);
+});
