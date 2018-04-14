@@ -275,8 +275,8 @@ resizeButtonPlus.addEventListener('click', function () {
 var validateHashtags = function () {
   var hashtags = hashtagInputElement.value.toLowerCase().trim();
   var arrayForTest = hashtags.split(' ');
-  var arrayOne = [];
-  var arrayTwo = [];
+  var arrayWithDoubleHashtags = [];
+  var arrayForTestDoubleHashtags = [];
   hashtagInputElement.setCustomValidity('');
 
   if (arrayForTest.length > 5) {
@@ -295,13 +295,13 @@ var validateHashtags = function () {
   }
 
   for (var l = 0; l < arrayForTest.length; l++) {
-    if (arrayOne.includes(arrayForTest[l]) && !arrayTwo.includes(arrayForTest[l])) {
-      arrayTwo.push(arrayForTest[l]);
+    if (arrayForTestDoubleHashtags.includes(arrayForTest[l]) && !arrayWithDoubleHashtags.includes(arrayForTest[l])) {
+      arrayWithDoubleHashtags.push(arrayForTest[l]);
     } else {
-      arrayOne.push(arrayForTest[l]);
+      arrayForTestDoubleHashtags.push(arrayForTest[l]);
     }
   }
-  if (arrayTwo.length > 0) {
+  if (arrayWithDoubleHashtags.length > 0) {
     hashtagInputElement.setCustomValidity('Пожалуйста, уберите повторяющийся хэштег');
     return;
   }
