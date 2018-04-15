@@ -119,6 +119,8 @@ var createEffectClickHanlder = function (effectName) {
       scaleElement.classList.remove('hidden');
     }
     previewElement.style.filter = createDefaultStyleEffect(effectName);
+    scalePinElement.style.left = caclulateScrollBarWidth() - PIN_WIDTH / 2 + 'px';
+    scaleBarElement.style.width = 100 + '%';
 
     scalePinElement.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
