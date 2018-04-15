@@ -29,6 +29,8 @@ var SCALE_STEP_VALUE = 25;
 var SCALE_LIMIT_LAST_INCREASE = 75;
 var SCALE_LIMIT_LAST_DECREASE = 50;
 
+var PIN_WIDTH = 18;
+
 var generateRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -118,9 +120,37 @@ var createEffectClickHanlder = function (effectName) {
     }
     previewElement.style.filter = createDefaultStyleEffect(effectName);
 
-    scalePinElement.addEventListener('mouseup', function (evt) {
-      getEffectIntensity(evt.clientX);
-      previewElement.style.filter = createStyleEffect(effectName);
+    scalePinElement.addEventListener('mousedown', function (evt) {
+      evt.preventDefault();
+
+      var startCoordX = evt.clientX;
+
+      var mouseMoveHanlder = function (moveEvt) {
+        moveEvt.preventDefault();
+
+        var shiftX = startCoordX - moveEvt.clientX;
+        startCoordX = moveEvt.clientX;
+        var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
+        if (pinLeftPosition < PIN_WIDTH / 2) {
+          pinLeftPosition = PIN_WIDTH / 2;
+        } else if (pinLeftPosition > caclulateScrollBarWidth() - PIN_WIDTH / 2) {
+          pinLeftPosition = caclulateScrollBarWidth() - PIN_WIDTH / 2;
+        }
+        scalePinElement.style.left = pinLeftPosition + 'px';
+
+        getEffectIntensity(startCoordX);
+        previewElement.style.filter = createStyleEffect(effectName);
+      };
+
+      var mouseUpHanlder = function (upEvt) {
+        upEvt.preventDefault();
+
+        document.removeEventListener('mousemove', mouseMoveHanlder);
+        document.removeEventListener('mouseup', mouseUpHanlder);
+      };
+
+      document.addEventListener('mousemove', mouseMoveHanlder);
+      document.addEventListener('mouseup', mouseUpHanlder);
     });
   };
 };
@@ -325,29 +355,4 @@ commentTextareaElement.addEventListener('focusout', function () {
 
 submitPictureElement.addEventListener('click', function () {
   validateHashtags();
-});
-
-scalePinElement.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
-
-  var startCoordX = evt.clientX;
-
-  var mouseMoveHanlder = function (moveEvt) {
-    moveEvt.preventDefault();
-
-    var shiftX = startCoordX - moveEvt.clientX;
-
-    startCoordX = moveEvt.clientX;
-    scalePinElement.style.left = (scalePinElement.offsetLeft - shiftX) + 'px';
-  };
-
-  var mouseUpHanlder = function (upEvt) {
-    upEvt.preventDefault();
-
-    document.removeEventListener('mousemove', mouseMoveHanlder);
-    document.removeEventListener('mouseup', mouseUpHanlder);
-  };
-
-  document.addEventListener('mousemove', mouseMoveHanlder);
-  document.addEventListener('mouseup', mouseUpHanlder);
 });
