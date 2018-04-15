@@ -129,7 +129,13 @@ var createEffectClickHanlder = function (effectName) {
         moveEvt.preventDefault();
 
         var shiftX = startCoordX - moveEvt.clientX;
-        startCoordX = moveEvt.clientX;
+        if (moveEvt.clientX < 417) {
+          startCoordX = 417;
+        } else if (moveEvt.clientX > 860) {
+          startCoordX = 860;
+        } else {
+          startCoordX = moveEvt.clientX;
+        }
         var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
         if (pinLeftPosition < PIN_WIDTH / 2) {
           pinLeftPosition = PIN_WIDTH / 2;
@@ -140,6 +146,7 @@ var createEffectClickHanlder = function (effectName) {
 
         getEffectIntensity(startCoordX);
         previewElement.style.filter = createStyleEffect(effectName);
+        scaleBarElement.style.width = effectIntensity + '%';
       };
 
       var mouseUpHanlder = function (upEvt) {
@@ -196,7 +203,11 @@ var caclulateScrollBarWidth = function () {
 var getEffectIntensity = function (value) {
   var pinPosition = value - (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2;
   effectIntensity = Math.floor(pinPosition / (caclulateScrollBarWidth() / 100));
-
+  if (effectIntensity < 0) {
+    effectIntensity = 0;
+  } else if (effectIntensity > 100) {
+    effectIntensity = 100;
+  }
   scaleValueInputElement.value = effectIntensity;
 
   return effectIntensity;
@@ -224,6 +235,7 @@ var scalePinElement = uploadFormElement.querySelector('.scale__pin');
 var scaleValueInputElement = uploadFormElement.querySelector('.scale__value');
 var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
 var scaleLineElement = uploadFormElement.querySelector('.scale__line');
+var scaleBarElement = uploadFormElement.querySelector('.scale__level');
 
 var resizeButtonMinus = uploadFormElement.querySelector('.resize__control--minus');
 var resizeButtonPlus = uploadFormElement.querySelector('.resize__control--plus');
