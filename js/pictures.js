@@ -131,10 +131,10 @@ var createEffectClickHanlder = function (effectName) {
         moveEvt.preventDefault();
 
         var shiftX = startCoordX - moveEvt.clientX;
-        if (moveEvt.clientX < 417) {
-          startCoordX = 417;
-        } else if (moveEvt.clientX > 860) {
-          startCoordX = 860;
+        if (moveEvt.clientX < (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2) {
+          startCoordX = (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2;
+        } else if (moveEvt.clientX > (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth()) {
+          startCoordX = (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth();
         } else {
           startCoordX = moveEvt.clientX;
         }
@@ -149,6 +149,7 @@ var createEffectClickHanlder = function (effectName) {
         getEffectIntensity(startCoordX);
         previewElement.style.filter = createStyleEffect(effectName);
         scaleBarElement.style.width = effectIntensity + '%';
+        console.log(moveEvt.clientX);
       };
 
       var mouseUpHanlder = function (upEvt) {
