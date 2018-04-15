@@ -149,7 +149,6 @@ var createEffectClickHanlder = function (effectName) {
         getEffectIntensity(startCoordX);
         previewElement.style.filter = createStyleEffect(effectName);
         scaleBarElement.style.width = effectIntensity + '%';
-        console.log(moveEvt.clientX);
       };
 
       var mouseUpHanlder = function (upEvt) {
