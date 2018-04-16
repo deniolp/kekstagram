@@ -17,6 +17,14 @@ var DESCRIPTION_LIST = [
   'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
   'Вот это тачка!'
 ];
+var EFFECTS = [
+  'none',
+  'chrome',
+  'sepia',
+  'marvin',
+  'phobos',
+  'heat'
+];
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var EFFECT_GRAYSCALE_DEFAULT_VALUE = 1;
@@ -110,7 +118,48 @@ var closePopup = function () {
   uploadFileInputElement.value = '';
 };
 
-var createEffectClickHanlder = function (effectName) {
+var createEffectClickHandler = function (effectName) {
+  var mouseDownHandler = function (evt) {
+    evt.preventDefault();
+
+    var startCoordX = evt.clientX;
+
+    var mouseMoveHandler = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shiftX = startCoordX - moveEvt.clientX;
+      if (moveEvt.clientX < (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2) {
+        startCoordX = (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2;
+      } else if (moveEvt.clientX > (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth()) {
+        startCoordX = (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth();
+      } else {
+        startCoordX = moveEvt.clientX;
+      }
+      var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
+      if (pinLeftPosition < PIN_WIDTH / 2) {
+        pinLeftPosition = PIN_WIDTH / 2;
+      } else if (pinLeftPosition > caclulateScrollBarWidth() - PIN_WIDTH / 2) {
+        pinLeftPosition = caclulateScrollBarWidth() - PIN_WIDTH / 2;
+      }
+      scalePinElement.style.left = pinLeftPosition + 'px';
+
+      getEffectIntensity(startCoordX);
+      previewElement.style.filter = createStyleEffect(effectName);
+      scaleBarElement.style.width = effectIntensity + '%';
+    };
+
+    var mouseUpHandler = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+      scalePinElement.addEventListener('mousedown', mouseDownHandler);
+    };
+
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+  };
+
   return function () {
     previewElement.className = 'img-upload__preview effects__preview--' + effectName;
     if (effectName === 'none') {
@@ -122,45 +171,7 @@ var createEffectClickHanlder = function (effectName) {
     scalePinElement.style.left = caclulateScrollBarWidth() - PIN_WIDTH / 2 + 'px';
     scaleBarElement.style.width = 100 + '%';
 
-    scalePinElement.addEventListener('mousedown', function (evt) {
-      evt.preventDefault();
-
-      var startCoordX = evt.clientX;
-
-      var mouseMoveHanlder = function (moveEvt) {
-        moveEvt.preventDefault();
-
-        var shiftX = startCoordX - moveEvt.clientX;
-        if (moveEvt.clientX < (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2) {
-          startCoordX = (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2;
-        } else if (moveEvt.clientX > (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth()) {
-          startCoordX = (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth();
-        } else {
-          startCoordX = moveEvt.clientX;
-        }
-        var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
-        if (pinLeftPosition < PIN_WIDTH / 2) {
-          pinLeftPosition = PIN_WIDTH / 2;
-        } else if (pinLeftPosition > caclulateScrollBarWidth() - PIN_WIDTH / 2) {
-          pinLeftPosition = caclulateScrollBarWidth() - PIN_WIDTH / 2;
-        }
-        scalePinElement.style.left = pinLeftPosition + 'px';
-
-        getEffectIntensity(startCoordX);
-        previewElement.style.filter = createStyleEffect(effectName);
-        scaleBarElement.style.width = effectIntensity + '%';
-      };
-
-      var mouseUpHanlder = function (upEvt) {
-        upEvt.preventDefault();
-
-        document.removeEventListener('mousemove', mouseMoveHanlder);
-        document.removeEventListener('mouseup', mouseUpHanlder);
-      };
-
-      document.addEventListener('mousemove', mouseMoveHanlder);
-      document.addEventListener('mouseup', mouseUpHanlder);
-    });
+    scalePinElement.addEventListener('mousedown', mouseDownHandler);
   };
 };
 
@@ -226,12 +237,7 @@ var uploadImageElement = uploadFormElement.querySelector('.img-upload__overlay')
 var uploadImageCancelElement = uploadFormElement.querySelector('.img-upload__cancel');
 var previewElement = uploadFormElement.querySelector('.img-upload__preview');
 
-var effectNoneElement = uploadFormElement.querySelector('#effect-none');
-var effectChromeElement = uploadFormElement.querySelector('#effect-chrome');
-var effectSepiaElement = uploadFormElement.querySelector('#effect-sepia');
-var effectMarvinElement = uploadFormElement.querySelector('#effect-marvin');
-var effectPhobosElement = uploadFormElement.querySelector('#effect-phobos');
-var effectHeatElement = uploadFormElement.querySelector('#effect-heat');
+var effectElement = uploadFormElement.querySelectorAll('.effects__radio');
 
 var scalePinElement = uploadFormElement.querySelector('.scale__pin');
 var scaleValueInputElement = uploadFormElement.querySelector('.scale__value');
@@ -291,12 +297,9 @@ document.addEventListener('keydown', function (evt) {
 
 scaleElement.classList.add('hidden');
 
-effectNoneElement.addEventListener('click', createEffectClickHanlder('none'));
-effectChromeElement.addEventListener('click', createEffectClickHanlder('chrome'));
-effectSepiaElement.addEventListener('click', createEffectClickHanlder('sepia'));
-effectMarvinElement.addEventListener('click', createEffectClickHanlder('marvin'));
-effectPhobosElement.addEventListener('click', createEffectClickHanlder('phobos'));
-effectHeatElement.addEventListener('click', createEffectClickHanlder('heat'));
+for (var j = 0; j < EFFECTS.length; j++) {
+  effectElement[j].addEventListener('click', createEffectClickHandler(EFFECTS[j]));
+}
 
 resizeValue.value = '100%';
 
