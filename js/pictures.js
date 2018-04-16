@@ -127,10 +127,10 @@ var mouseDownHandler = function (evt) {
     moveEvt.preventDefault();
 
     var shiftX = startCoordX - moveEvt.clientX;
-    if (moveEvt.clientX < (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2) {
-      startCoordX = (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2;
-    } else if (moveEvt.clientX > (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth()) {
-      startCoordX = (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth();
+    if (moveEvt.clientX < (windowWidth - caclulateScrollBarWidth()) / 2) {
+      startCoordX = (windowWidth - caclulateScrollBarWidth()) / 2;
+    } else if (moveEvt.clientX > (windowWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth()) {
+      startCoordX = (windowWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth();
     } else {
       startCoordX = moveEvt.clientX;
     }
@@ -214,7 +214,7 @@ var caclulateScrollBarWidth = function () {
 };
 
 var getEffectIntensity = function (value) {
-  var pinPosition = value - (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2;
+  var pinPosition = value - (windowWidth - caclulateScrollBarWidth()) / 2;
   effectIntensity = Math.floor(pinPosition / (caclulateScrollBarWidth() / 100));
   if (effectIntensity < 0) {
     effectIntensity = 0;
@@ -244,6 +244,7 @@ var scaleValueInputElement = uploadFormElement.querySelector('.scale__value');
 var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
 var scaleLineElement = uploadFormElement.querySelector('.scale__line');
 var scaleBarElement = uploadFormElement.querySelector('.scale__level');
+var windowWidth = document.documentElement.clientWidth;
 
 var resizeButtonMinus = uploadFormElement.querySelector('.resize__control--minus');
 var resizeButtonPlus = uploadFormElement.querySelector('.resize__control--plus');
