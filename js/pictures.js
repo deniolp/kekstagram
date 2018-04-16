@@ -328,6 +328,10 @@ var validateHashtags = function () {
   var testDoubleHashtags = [];
   hashtagInputElement.setCustomValidity('');
 
+  if (hashtagsForTest[0] === '') {
+    return;
+  }
+
   if (hashtagsForTest.length > 5) {
     hashtagInputElement.setCustomValidity('У вас слишком много хэштегов, можно не больше 5');
     return;
