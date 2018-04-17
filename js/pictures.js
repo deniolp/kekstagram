@@ -118,27 +118,27 @@ var closePopup = function () {
   uploadFileInputElement.value = '';
 };
 
-var mouseDownHandler = function (evt) {
-  evt.preventDefault();
+var mouseDownHandler = function (downevt) {
+  downevt.preventDefault();
 
-  var startCoordX = evt.clientX;
+  var startCoordX = downevt.clientX;
 
   var mouseMoveHandler = function (moveEvt) {
     moveEvt.preventDefault();
-
+    var scrollBarWidth = caclulateScrollBarWidth();
     var shiftX = startCoordX - moveEvt.clientX;
-    if (moveEvt.clientX < (windowWidth - caclulateScrollBarWidth()) / 2) {
-      startCoordX = (windowWidth - caclulateScrollBarWidth()) / 2;
-    } else if (moveEvt.clientX > (windowWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth()) {
-      startCoordX = (windowWidth - caclulateScrollBarWidth()) / 2 + caclulateScrollBarWidth();
+    if (moveEvt.clientX < (windowWidth - scrollBarWidth) / 2) {
+      startCoordX = (windowWidth - scrollBarWidth) / 2;
+    } else if (moveEvt.clientX > (windowWidth - scrollBarWidth) / 2 + scrollBarWidth) {
+      startCoordX = (windowWidth - scrollBarWidth) / 2 + scrollBarWidth;
     } else {
       startCoordX = moveEvt.clientX;
     }
     var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
     if (pinLeftPosition < PIN_WIDTH / 2) {
       pinLeftPosition = PIN_WIDTH / 2;
-    } else if (pinLeftPosition > caclulateScrollBarWidth() - PIN_WIDTH / 2) {
-      pinLeftPosition = caclulateScrollBarWidth() - PIN_WIDTH / 2;
+    } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
+      pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
     }
     scalePinElement.style.left = pinLeftPosition + 'px';
 
