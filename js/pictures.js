@@ -142,7 +142,7 @@ var mouseDownHandler = function (downevt) {
     }
     scalePinElement.style.left = pinLeftPosition + 'px';
 
-    getEffectIntensity(startCoordX);
+    updateEffectIntensity(startCoordX);
     previewElement.style.filter = createStyleEffect(currentEffect);
     scaleBarElement.style.width = effectIntensity + '%';
   };
@@ -213,17 +213,16 @@ var caclulateScrollBarWidth = function () {
   return scaleLineElement.getBoundingClientRect().width;
 };
 
-var getEffectIntensity = function (value) {
-  var pinPosition = value - (windowWidth - caclulateScrollBarWidth()) / 2;
-  effectIntensity = Math.floor(pinPosition / (caclulateScrollBarWidth() / 100));
+var updateEffectIntensity = function (value) {
+  var scrollBarWidth = caclulateScrollBarWidth();
+  var pinPosition = value - (windowWidth - scrollBarWidth) / 2;
+  effectIntensity = Math.floor(pinPosition / (scrollBarWidth / 100));
   if (effectIntensity < 0) {
     effectIntensity = 0;
   } else if (effectIntensity > 100) {
     effectIntensity = 100;
   }
   scaleValueInputElement.value = effectIntensity;
-
-  return effectIntensity;
 };
 
 var pictures = [];
@@ -328,7 +327,7 @@ var validateHashtags = function () {
   var testDoubleHashtags = [];
   hashtagInputElement.setCustomValidity('');
 
-  if (hashtagsForTest[0] === '') {
+  if (hashtags === '') {
     return;
   }
 
