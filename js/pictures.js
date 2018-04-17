@@ -118,23 +118,24 @@ var closePopup = function () {
   uploadFileInputElement.value = '';
 };
 
-var mouseDownHandler = function (downevt) {
-  downevt.preventDefault();
+var mouseDownHandler = function (downEvt) {
+  downEvt.preventDefault();
 
-  var startCoordX = downevt.clientX;
+  var startCoordX = downEvt.clientX;
 
   var mouseMoveHandler = function (moveEvt) {
     moveEvt.preventDefault();
     var scrollBarWidth = caclulateScrollBarWidth();
     var shiftX = startCoordX - moveEvt.clientX;
-    if (moveEvt.clientX < (windowWidth - scrollBarWidth) / 2) {
-      startCoordX = (windowWidth - scrollBarWidth) / 2;
-    } else if (moveEvt.clientX > (windowWidth - scrollBarWidth) / 2 + scrollBarWidth) {
-      startCoordX = (windowWidth - scrollBarWidth) / 2 + scrollBarWidth;
+    var scrollBarCoordX = (windowWidth - scrollBarWidth) / 2;
+    var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
+    if (moveEvt.clientX < scrollBarCoordX) {
+      startCoordX = scrollBarCoordX;
+    } else if (moveEvt.clientX > scrollBarCoordX + scrollBarWidth) {
+      startCoordX = scrollBarCoordX + scrollBarWidth;
     } else {
       startCoordX = moveEvt.clientX;
     }
-    var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
     if (pinLeftPosition < PIN_WIDTH / 2) {
       pinLeftPosition = PIN_WIDTH / 2;
     } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
