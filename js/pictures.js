@@ -17,6 +17,14 @@ var DESCRIPTION_LIST = [
   'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
   'Вот это тачка!'
 ];
+var EFFECTS = [
+  'none',
+  'chrome',
+  'sepia',
+  'marvin',
+  'phobos',
+  'heat'
+];
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 var EFFECT_GRAYSCALE_DEFAULT_VALUE = 1;
@@ -28,6 +36,8 @@ var EFFECT_BRIGHTNESS_DEFAULT_VALUE = 3;
 var SCALE_STEP_VALUE = 25;
 var SCALE_LIMIT_LAST_INCREASE = 75;
 var SCALE_LIMIT_LAST_DECREASE = 50;
+
+var PIN_WIDTH = 18;
 
 var generateRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -108,8 +118,53 @@ var closePopup = function () {
   uploadFileInputElement.value = '';
 };
 
-var createEffectClickHanlder = function (effectName) {
+var mouseDownHandler = function (downEvt) {
+  downEvt.preventDefault();
+
+  var startCoordX = downEvt.clientX;
+
+  var mouseMoveHandler = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var scrollBarWidth = caclulateScrollBarWidth();
+    var shiftX = startCoordX - moveEvt.clientX;
+    var scrollBarCoordX = (windowWidth - scrollBarWidth) / 2;
+    var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
+
+    if (moveEvt.clientX < scrollBarCoordX) {
+      startCoordX = scrollBarCoordX;
+    } else if (moveEvt.clientX > scrollBarCoordX + scrollBarWidth) {
+      startCoordX = scrollBarCoordX + scrollBarWidth;
+    } else {
+      startCoordX = moveEvt.clientX;
+    }
+    if (pinLeftPosition < PIN_WIDTH / 2) {
+      pinLeftPosition = PIN_WIDTH / 2;
+    } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
+      pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
+    }
+    updateEffectIntensity(startCoordX);
+
+    scaleValueInputElement.value = effectIntensity;
+    scalePinElement.style.left = pinLeftPosition + 'px';
+    previewElement.style.filter = createStyleEffect(currentEffect);
+    scaleBarElement.style.width = effectIntensity + '%';
+  };
+
+  var mouseUpHandler = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
+  };
+
+  document.addEventListener('mousemove', mouseMoveHandler);
+  document.addEventListener('mouseup', mouseUpHandler);
+};
+
+var createEffectClickHandler = function (effectName) {
   return function () {
+    currentEffect = effectName;
     previewElement.className = 'img-upload__preview effects__preview--' + effectName;
     if (effectName === 'none') {
       scaleElement.classList.add('hidden');
@@ -117,11 +172,8 @@ var createEffectClickHanlder = function (effectName) {
       scaleElement.classList.remove('hidden');
     }
     previewElement.style.filter = createDefaultStyleEffect(effectName);
-
-    scalePinElement.addEventListener('mouseup', function (evt) {
-      getEffectIntensity(evt.clientX);
-      previewElement.style.filter = createStyleEffect(effectName);
-    });
+    scalePinElement.style.left = caclulateScrollBarWidth() - PIN_WIDTH / 2 + 'px';
+    scaleBarElement.style.width = 100 + '%';
   };
 };
 
@@ -163,13 +215,17 @@ var caclulateScrollBarWidth = function () {
   return scaleLineElement.getBoundingClientRect().width;
 };
 
-var getEffectIntensity = function (value) {
-  var pinPosition = value - (document.documentElement.clientWidth - caclulateScrollBarWidth()) / 2;
-  effectIntensity = Math.floor(pinPosition / (caclulateScrollBarWidth() / 100));
+var updateEffectIntensity = function (value) {
+  var scrollBarWidth = caclulateScrollBarWidth();
+  var pinPosition = value - (windowWidth - scrollBarWidth) / 2;
 
-  scaleValueInputElement.value = effectIntensity;
+  effectIntensity = Math.floor(pinPosition / (scrollBarWidth / 100));
 
-  return effectIntensity;
+  if (effectIntensity < 0) {
+    effectIntensity = 0;
+  } else if (effectIntensity > 100) {
+    effectIntensity = 100;
+  }
 };
 
 var pictures = [];
@@ -183,17 +239,14 @@ var uploadImageElement = uploadFormElement.querySelector('.img-upload__overlay')
 var uploadImageCancelElement = uploadFormElement.querySelector('.img-upload__cancel');
 var previewElement = uploadFormElement.querySelector('.img-upload__preview');
 
-var effectNoneElement = uploadFormElement.querySelector('#effect-none');
-var effectChromeElement = uploadFormElement.querySelector('#effect-chrome');
-var effectSepiaElement = uploadFormElement.querySelector('#effect-sepia');
-var effectMarvinElement = uploadFormElement.querySelector('#effect-marvin');
-var effectPhobosElement = uploadFormElement.querySelector('#effect-phobos');
-var effectHeatElement = uploadFormElement.querySelector('#effect-heat');
+var effectElement = uploadFormElement.querySelectorAll('.effects__radio');
 
 var scalePinElement = uploadFormElement.querySelector('.scale__pin');
 var scaleValueInputElement = uploadFormElement.querySelector('.scale__value');
 var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
 var scaleLineElement = uploadFormElement.querySelector('.scale__line');
+var scaleBarElement = uploadFormElement.querySelector('.scale__level');
+var windowWidth = document.documentElement.clientWidth;
 
 var resizeButtonMinus = uploadFormElement.querySelector('.resize__control--minus');
 var resizeButtonPlus = uploadFormElement.querySelector('.resize__control--plus');
@@ -205,6 +258,7 @@ var commentTextareaElement = uploadFormElement.querySelector('.text__description
 var submitPictureElement = uploadFormElement.querySelector('.img-upload__submit');
 
 var fragment = document.createDocumentFragment();
+var currentEffect;
 var effectIntensity;
 var picture;
 var pictureElement;
@@ -245,14 +299,13 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
+scalePinElement.addEventListener('mousedown', mouseDownHandler);
+
 scaleElement.classList.add('hidden');
 
-effectNoneElement.addEventListener('click', createEffectClickHanlder('none'));
-effectChromeElement.addEventListener('click', createEffectClickHanlder('chrome'));
-effectSepiaElement.addEventListener('click', createEffectClickHanlder('sepia'));
-effectMarvinElement.addEventListener('click', createEffectClickHanlder('marvin'));
-effectPhobosElement.addEventListener('click', createEffectClickHanlder('phobos'));
-effectHeatElement.addEventListener('click', createEffectClickHanlder('heat'));
+for (var j = 0; j < EFFECTS.length; j++) {
+  effectElement[j].addEventListener('click', createEffectClickHandler(EFFECTS[j]));
+}
 
 resizeValue.value = '100%';
 
@@ -278,6 +331,10 @@ var validateHashtags = function () {
   var doubleHashtags = [];
   var testDoubleHashtags = [];
   hashtagInputElement.setCustomValidity('');
+
+  if (hashtags === '') {
+    return;
+  }
 
   if (hashtagsForTest.length > 5) {
     hashtagInputElement.setCustomValidity('У вас слишком много хэштегов, можно не больше 5');
