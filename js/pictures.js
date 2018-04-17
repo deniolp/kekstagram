@@ -125,10 +125,12 @@ var mouseDownHandler = function (downEvt) {
 
   var mouseMoveHandler = function (moveEvt) {
     moveEvt.preventDefault();
+
     var scrollBarWidth = caclulateScrollBarWidth();
     var shiftX = startCoordX - moveEvt.clientX;
     var scrollBarCoordX = (windowWidth - scrollBarWidth) / 2;
     var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
+
     if (moveEvt.clientX < scrollBarCoordX) {
       startCoordX = scrollBarCoordX;
     } else if (moveEvt.clientX > scrollBarCoordX + scrollBarWidth) {
@@ -141,9 +143,10 @@ var mouseDownHandler = function (downEvt) {
     } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
       pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
     }
-    scalePinElement.style.left = pinLeftPosition + 'px';
-
     updateEffectIntensity(startCoordX);
+
+    scaleValueInputElement.value = effectIntensity;
+    scalePinElement.style.left = pinLeftPosition + 'px';
     previewElement.style.filter = createStyleEffect(currentEffect);
     scaleBarElement.style.width = effectIntensity + '%';
   };
@@ -215,13 +218,14 @@ var caclulateScrollBarWidth = function () {
 var updateEffectIntensity = function (value) {
   var scrollBarWidth = caclulateScrollBarWidth();
   var pinPosition = value - (windowWidth - scrollBarWidth) / 2;
+
   effectIntensity = Math.floor(pinPosition / (scrollBarWidth / 100));
+
   if (effectIntensity < 0) {
     effectIntensity = 0;
   } else if (effectIntensity > 100) {
     effectIntensity = 100;
   }
-  scaleValueInputElement.value = effectIntensity;
 };
 
 var pictures = [];
