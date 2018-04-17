@@ -171,8 +171,6 @@ var createEffectClickHandler = function (effectName) {
     previewElement.style.filter = createDefaultStyleEffect(effectName);
     scalePinElement.style.left = caclulateScrollBarWidth() - PIN_WIDTH / 2 + 'px';
     scaleBarElement.style.width = 100 + '%';
-
-    scalePinElement.addEventListener('mousedown', mouseDownHandler);
   };
 };
 
@@ -296,6 +294,8 @@ document.addEventListener('keydown', function (evt) {
     bigPictureElement.classList.add('hidden');
   }
 });
+
+scalePinElement.addEventListener('mousedown', mouseDownHandler);
 
 scaleElement.classList.add('hidden');
 
