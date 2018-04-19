@@ -14,17 +14,19 @@
   resizeValue.value = '100%';
 
   resizeButtonMinus.addEventListener('click', function () {
-    if (parseInt(resizeValue.value, 10) >= SCALE_LIMIT_LAST_DECREASE) {
-      resizeValue.value = parseInt(resizeValue.value, 10) - SCALE_STEP_VALUE + '%';
-      previewElement.style.transform = 'scale(' + parseInt(resizeValue.value, 10) / 100 + ')';
+    var parsedResizeValue = parseInt(resizeValue.value, 10);
+    if (parsedResizeValue >= SCALE_LIMIT_LAST_DECREASE) {
+      resizeValue.value = parsedResizeValue - SCALE_STEP_VALUE + '%';
+      previewElement.style.transform = 'scale(' + parsedResizeValue / 100 + ')';
     }
   });
 
   resizeButtonPlus.addEventListener('click', function () {
-    if (parseInt(resizeValue.value, 10) <= SCALE_LIMIT_LAST_INCREASE) {
-      resizeValue.value = parseInt(resizeValue.value, 10) + SCALE_STEP_VALUE + '%';
-      previewElement.style.transform = 'scale(' + parseInt(resizeValue.value, 10) / 100 + ')';
-    } if (parseInt(resizeValue.value, 10) === 100) {
+    var parsedResizeValue = parseInt(resizeValue.value, 10);
+    if (parsedResizeValue <= SCALE_LIMIT_LAST_INCREASE) {
+      resizeValue.value = parsedResizeValue + SCALE_STEP_VALUE + '%';
+      previewElement.style.transform = 'scale(' + parsedResizeValue / 100 + ')';
+    } if (parsedResizeValue === 100) {
       previewElement.style.transform = '';
     }
   });
