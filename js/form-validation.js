@@ -2,6 +2,9 @@
 
 (function () {
 
+  var MAX_QUANTITY_HASHTAGS = 5;
+  var MAX_LENGTH_HASHTAG = 5;
+
   var validateHashtags = function () {
     var hashtags = hashtagInputElement.value.toLowerCase().trim();
     var hashtagsForTest = hashtags.split(' ');
@@ -13,7 +16,7 @@
       return;
     }
 
-    if (hashtagsForTest.length > 5) {
+    if (hashtagsForTest.length > MAX_QUANTITY_HASHTAGS) {
       hashtagInputElement.setCustomValidity('У вас слишком много хэштегов, можно не больше 5');
       return;
     }
@@ -22,7 +25,7 @@
       if (hashtagsForTest[m].charAt(0) !== '#') {
         hashtagInputElement.setCustomValidity('Каждый хэштег должен начинаться с символа #');
         return;
-      } else if (hashtagsForTest[m].length > 20 || hashtagsForTest[m].length === 1) {
+      } else if (hashtagsForTest[m].length > MAX_LENGTH_HASHTAG || hashtagsForTest[m].length === 1) {
         hashtagInputElement.setCustomValidity('Хэштег не должен быть длиннее 20 и короче 2 символов');
         return;
       }
