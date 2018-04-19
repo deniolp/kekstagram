@@ -47,19 +47,19 @@
   var commentTextareaElement = uploadFormElement.querySelector('.text__description');
 
   hashtagInputElement.addEventListener('focus', function () {
-    document.removeEventListener('keydown', popupEscPressHandler);
+    document.removeEventListener('keydown', window.utils.popupEscPressHandler);
   });
 
   hashtagInputElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', popupEscPressHandler);
+    document.addEventListener('keydown', window.utils.popupEscPressHandler);
   });
 
   commentTextareaElement.addEventListener('focus', function () {
-    document.removeEventListener('keydown', popupEscPressHandler);
+    document.removeEventListener('keydown', window.utils.popupEscPressHandler);
   });
 
   commentTextareaElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', popupEscPressHandler);
+    document.addEventListener('keydown', window.utils.popupEscPressHandler);
   });
 
   submitPictureElement.addEventListener('click', function () {
