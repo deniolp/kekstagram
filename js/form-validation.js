@@ -2,8 +2,8 @@
 
 (function () {
 
-  var MAX_QUANTITY_HASHTAGS = 5;
-  var MAX_LENGTH_HASHTAG = 5;
+  var HASHTAGS_MAX_QUANTITY = 5;
+  var HASHTAG_MAX_LENGTH = 5;
 
   var validateHashtags = function () {
     var hashtags = hashtagInputElement.value.toLowerCase().trim();
@@ -16,29 +16,26 @@
       return;
     }
 
-    if (hashtagsForTest.length > MAX_QUANTITY_HASHTAGS) {
+    if (hashtagsForTest.length > HASHTAGS_MAX_QUANTITY) {
       hashtagInputElement.setCustomValidity('У вас слишком много хэштегов, можно не больше 5');
       return;
     }
 
-    for (var m = 0; m < hashtagsForTest.length; m++) {
-      if (hashtagsForTest[m].charAt(0) !== '#') {
+    for (var i = 0; i < hashtagsForTest.length; i++) {
+      if (hashtagsForTest[i].charAt(0) !== '#') {
         hashtagInputElement.setCustomValidity('Каждый хэштег должен начинаться с символа #');
         return;
-      } else if (hashtagsForTest[m].length > MAX_LENGTH_HASHTAG) {
+      } else if (hashtagsForTest[i].length > HASHTAG_MAX_LENGTH) {
         hashtagInputElement.setCustomValidity('Хэштег не должен быть длиннее 20 символов');
         return;
-      } else if (hashtagsForTest[m] === '#') {
+      } else if (hashtagsForTest[i] === '#') {
         hashtagInputElement.setCustomValidity('Хэштег не должен состоять только из одной #');
         return;
       }
-    }
-
-    for (var l = 0; l < hashtagsForTest.length; l++) {
-      if (testDoubleHashtags.includes(hashtagsForTest[l]) && !doubleHashtags.includes(hashtagsForTest[l])) {
-        doubleHashtags.push(hashtagsForTest[l]);
+      if (testDoubleHashtags.includes(hashtagsForTest[i]) && !doubleHashtags.includes(hashtagsForTest[i])) {
+        doubleHashtags.push(hashtagsForTest[i]);
       } else {
-        testDoubleHashtags.push(hashtagsForTest[l]);
+        testDoubleHashtags.push(hashtagsForTest[i]);
       }
     }
     if (doubleHashtags.length > 0) {
