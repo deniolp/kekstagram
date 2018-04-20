@@ -25,8 +25,11 @@
       if (hashtagsForTest[m].charAt(0) !== '#') {
         hashtagInputElement.setCustomValidity('Каждый хэштег должен начинаться с символа #');
         return;
-      } else if (hashtagsForTest[m].length > MAX_LENGTH_HASHTAG || hashtagsForTest[m].length === 1) {
-        hashtagInputElement.setCustomValidity('Хэштег не должен быть длиннее 20 и короче 2 символов');
+      } else if (hashtagsForTest[m].length > MAX_LENGTH_HASHTAG) {
+        hashtagInputElement.setCustomValidity('Хэштег не должен быть длиннее 20 символов');
+        return;
+      } else if (hashtagsForTest[m] === '#') {
+        hashtagInputElement.setCustomValidity('Хэштег не должен состоять только из одной #');
         return;
       }
     }
