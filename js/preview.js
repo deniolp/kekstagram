@@ -2,7 +2,7 @@
 
 (function () {
 
-  var ESC_KEYCODE = 27;
+  var KEYCODE_ESC = 27;
 
   var showPicture = function (data, element) {
     var commentBlockTemplate = element.querySelector('.social__comment').cloneNode(true);
@@ -36,7 +36,7 @@
   });
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === KEYCODE_ESC) {
       bigPictureElement.classList.add('hidden');
     }
   });

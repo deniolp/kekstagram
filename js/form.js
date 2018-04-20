@@ -2,8 +2,8 @@
 
 (function () {
 
-  var ENTER_KEYCODE = 13;
-  var ESC_KEYCODE = 27;
+  var KEYCODE_ENTER = 13;
+  var KEYCODE_ESC = 27;
   var EFFECTS = [
     'none',
     'chrome',
@@ -130,7 +130,7 @@
   };
 
   var documentPressEscHandler = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === KEYCODE_ESC) {
       uploadImageElement.classList.add('hidden');
       uploadFileInputElement.value = '';
     }
@@ -173,7 +173,7 @@
   });
 
   uploadImageCancelElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
+    if (evt.keyCode === KEYCODE_ENTER) {
       uploadImageElement.classList.add('hidden');
       uploadFileInputElement.value = '';
       document.removeEventListener('keydown', documentPressEscHandler);
