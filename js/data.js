@@ -36,11 +36,13 @@
     };
   };
 
-  var generatePictures = function (number) {
+  var generatePictures = function () {
+    var LIMIT_PICTURES = 25;
+
     var pictures = [];
     var picture;
 
-    for (var i = 0; i < number; i++) {
+    for (var i = 0; i < LIMIT_PICTURES; i++) {
       picture = generatePicture(i + 1);
       pictures.push(picture);
     }

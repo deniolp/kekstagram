@@ -2,8 +2,6 @@
 
 (function () {
 
-  var LIMIT_PICTURES = 25;
-
   var createPictureElement = function (template, object) {
     var element = template.cloneNode(true);
     element.querySelector('img').src = object.url;
@@ -26,7 +24,7 @@
   var fragment = document.createDocumentFragment();
   var pictureElement;
 
-  var pictures = window.generatePictures(LIMIT_PICTURES);
+  var pictures = window.generatePictures();
 
   for (var i = 0; i < pictures.length; i++) {
     pictureElement = createPictureElement(pictureTemplate, pictures[i]);
