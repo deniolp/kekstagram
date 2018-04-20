@@ -157,8 +157,8 @@
 
   scaleElement.classList.add('hidden');
 
-  for (var j = 0; j < EFFECTS.length; j++) {
-    effectElement[j].addEventListener('click', createEffectClickHandler(EFFECTS[j]));
+  for (var i = 0; i < EFFECTS.length; i++) {
+    effectElement[i].addEventListener('click', createEffectClickHandler(EFFECTS[i]));
   }
 
   uploadFileInputElement.addEventListener('change', function () {
