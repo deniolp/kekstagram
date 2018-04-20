@@ -37,15 +37,15 @@
   };
 
   var generatePictures = function (number) {
+    var pictures = [];
+    var picture;
+
     for (var i = 0; i < number; i++) {
       picture = generatePicture(i + 1);
       pictures.push(picture);
     }
     return pictures;
   };
-
-  var pictures = [];
-  var picture;
 
   window.generatePictures = generatePictures;
 })();
