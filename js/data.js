@@ -2,48 +2,61 @@
 
 (function () {
   var LIMIT_PICTURES = 25;
-  var COMMENTS_LIST = [
-    'Всё отлично!',
-    'В целом всё неплохо. Но не всё.',
-    'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-    'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-    'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-    'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-  ];
-  var DESCRIPTION_LIST = [
-    'Тестим новую камеру!',
-    'Затусили с друзьями на море',
-    'Как же круто тут кормят',
-    'Отдыхаем...',
-    'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
-    'Вот это тачка!'
-  ];
 
-  var generateComments = function (quantityOfComments) {
-    var comments = [];
-    for (var i = 1; i <= quantityOfComments; i++) {
-      comments.push(COMMENTS_LIST[window.utils.generateRandomNumber(0, COMMENTS_LIST.length - 1)]);
-    }
-    return comments;
-  };
-
-  var generatePicture = function (index) {
+  var generatePicture = function (object) {
     return {
-      url: 'photos/' + index + '.jpg',
-      likes: window.utils.generateRandomNumber(15, 200),
-      comments: generateComments(window.utils.generateRandomNumber(1, 2)),
-      description: DESCRIPTION_LIST[window.utils.generateRandomNumber(0, DESCRIPTION_LIST.length - 1)]
+      url: object.url,
+      likes: object.likes,
+      comments: object.comments,
+      description: object.comments[0]
     };
   };
 
-  var generatePictures = function () {
-    var pictures = [];
+  var createPictureElement = function (template, object) {
+    var element = template.cloneNode(true);
+    element.querySelector('img').src = object.url;
+    element.querySelector('.picture__stat--likes').textContent = object.likes;
+    element.querySelector('.picture__stat--comments').textContent = object.comments.length;
 
-    for (var i = 0; i < LIMIT_PICTURES; i++) {
-      pictures.push(generatePicture(i + 1));
-    }
-    return pictures;
+    return element;
   };
 
-  window.generatePictures = generatePictures;
+  var createPictureClickHandler = function (data, element) {
+    return function () {
+      window.showPicture(data, element);
+    };
+  };
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; height: 50px; padding-top: 10px;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var generatePictures = function (data) {
+
+    for (var i = 0; i < LIMIT_PICTURES; i++) {
+      var pictureObject = generatePicture(data[i]);
+      pictureElement = createPictureElement(pictureTemplate, pictureObject);
+      pictureElement.addEventListener('click', createPictureClickHandler(pictureObject, bigPictureElement));
+
+      fragment.appendChild(pictureElement);
+    }
+    picturesElements.appendChild(fragment);
+  };
+
+  var pictureTemplate = document.querySelector('#picture').content.querySelector('a');
+  var picturesElements = document.querySelector('.pictures');
+  var bigPictureElement = document.querySelector('.big-picture');
+
+  var fragment = document.createDocumentFragment();
+  var pictureElement;
+
+  window.backend.load(generatePictures, errorHandler);
 })();
