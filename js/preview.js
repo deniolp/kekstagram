@@ -16,6 +16,7 @@
     element.querySelector('.big-picture__img').querySelector('img').src = data.url;
     element.querySelector('.likes-count').textContent = data.likes;
     element.querySelector('.comments-count').textContent = data.comments.length;
+    element.querySelector('.social__caption').textContent = data.description;
 
     for (var i = 0; i < data.comments.length; i++) {
       commentBlock = commentBlockTemplate.cloneNode(true);
