@@ -1,19 +1,9 @@
 'use strict';
 
 (function () {
-  var LIMIT_PICTURES = 25;
-
-  var generatePicture = function (object) {
-    return {
-      url: object.url,
-      likes: object.likes,
-      comments: object.comments,
-      description: object.comments[0]
-    };
-  };
-
   var createPictureElement = function (template, object) {
     var element = template.cloneNode(true);
+
     element.querySelector('img').src = object.url;
     element.querySelector('.picture__stat--likes').textContent = object.likes;
     element.querySelector('.picture__stat--comments').textContent = object.comments.length;
@@ -27,16 +17,21 @@
     };
   };
 
-  var generatePictures = function (data) {
+  var processPictures = function (pictures) {
+    var pictureData;
+    var pictureElement;
+    var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < LIMIT_PICTURES; i++) {
-      var pictureElement;
-      var pictureObject = generatePicture(data[i]);
-      pictureElement = createPictureElement(pictureTemplate, pictureObject);
-      pictureElement.addEventListener('click', createPictureClickHandler(pictureObject, bigPictureElement));
+    for (var i = 0; i < pictures.length; i++) {
+      pictureData = pictures[i];
+      pictureData.description = pictureData.comments[0];
+
+      pictureElement = createPictureElement(pictureTemplate, pictureData);
+      pictureElement.addEventListener('click', createPictureClickHandler(pictureData, bigPictureElement));
 
       fragment.appendChild(pictureElement);
     }
+
     picturesElements.appendChild(fragment);
   };
 
@@ -44,7 +39,5 @@
   var picturesElements = document.querySelector('.pictures');
   var bigPictureElement = document.querySelector('.big-picture');
 
-  var fragment = document.createDocumentFragment();
-
-  window.backend.load(generatePictures, window.errorMessage.show);
+  window.backend.load(processPictures, window.errorMessage.show);
 })();
