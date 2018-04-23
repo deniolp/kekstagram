@@ -47,23 +47,6 @@
   var uploadFormElement = document.querySelector('.img-upload__form');
   var submitPictureElement = uploadFormElement.querySelector('.img-upload__submit');
   var hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
-  var commentTextareaElement = uploadFormElement.querySelector('.text__description');
-
-  hashtagInputElement.addEventListener('focus', function () {
-    document.removeEventListener('keydown', window.documentPressEscHandler);
-  });
-
-  hashtagInputElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', window.documentPressEscHandler);
-  });
-
-  commentTextareaElement.addEventListener('focus', function () {
-    document.removeEventListener('keydown', window.documentPressEscHandler);
-  });
-
-  commentTextareaElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', window.documentPressEscHandler);
-  });
 
   submitPictureElement.addEventListener('click', function () {
     validateHashtags();
