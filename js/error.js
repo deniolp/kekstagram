@@ -1,19 +1,22 @@
 'use strict';
 
 (function () {
-  var node = document.createElement('div');
+  var errorElement = document.createElement('div');
+
+  errorElement.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; height: 50px; padding-top: 10px; position: absolute; left: 0; right: 0; font-size: 30px';
+  errorElement.className = 'error';
 
   window.errorMessage = {
     show: function (errorMessage) {
-      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; height: 50px; padding-top: 10px; position: absolute; left: 0; right: 0; font-size: 30px';
+      errorElement.textContent = errorMessage;
 
-      node.className = 'error';
-      node.textContent = errorMessage;
-      document.body.insertAdjacentElement('afterbegin', node);
+      if (!document.body.contains(errorElement)) {
+        document.body.insertAdjacentElement('afterbegin', errorElement);
+      }
     },
     clear: function () {
-      if (document.body.querySelector('.error').length) {
-        document.body.removeChild(document.body.querySelector('.error'));
+      if (document.body.contains(errorElement)) {
+        document.body.removeChild(errorElement);
       }
     }
   };
