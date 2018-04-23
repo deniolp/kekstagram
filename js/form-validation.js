@@ -3,7 +3,7 @@
 (function () {
 
   var HASHTAGS_MAX_QUANTITY = 5;
-  var HASHTAG_MAX_LENGTH = 5;
+  var HASHTAG_MAX_LENGTH = 20;
 
   var validateHashtags = function () {
     var hashtags = hashtagInputElement.value.toLowerCase().trim();
