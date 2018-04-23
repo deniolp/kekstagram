@@ -58,5 +58,6 @@
   var fragment = document.createDocumentFragment();
   var pictureElement;
 
+  window.errorHandler = errorHandler;
   window.backend.load(generatePictures, errorHandler);
 })();
