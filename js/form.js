@@ -16,6 +16,9 @@
   var uploadImageElement = uploadFormElement.querySelector('.img-upload__overlay');
   var uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
   var uploadImageCancelElement = uploadFormElement.querySelector('.img-upload__cancel');
+  var resizeValue = uploadFormElement.querySelector('.resize__control--value');
+  var previewElement = uploadFormElement.querySelector('.img-upload__preview');
+  var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
 
   uploadFileInputElement.addEventListener('change', function () {
     uploadImageElement.classList.remove('hidden');
@@ -39,6 +42,13 @@
   uploadFormElement.addEventListener('submit', function (evt) {
     window.backend.save(new FormData(uploadFormElement), function () {
       uploadImageElement.classList.add('hidden');
+      uploadFileInputElement.value = '';
+      uploadFormElement.reset();
+      resizeValue.value = 100 + '%';
+      previewElement.style.transform = 'scale(1)';
+      previewElement.className = 'img-upload__preview--none';
+      scaleElement.classList.add('hidden');
+      previewElement.style.filter = '';
     }, window.errorHandler);
     evt.preventDefault();
   });
