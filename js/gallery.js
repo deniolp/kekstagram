@@ -42,6 +42,7 @@
   var generatePictures = function (data) {
 
     for (var i = 0; i < LIMIT_PICTURES; i++) {
+      var pictureElement;
       var pictureObject = generatePicture(data[i]);
       pictureElement = createPictureElement(pictureTemplate, pictureObject);
       pictureElement.addEventListener('click', createPictureClickHandler(pictureObject, bigPictureElement));
@@ -56,7 +57,6 @@
   var bigPictureElement = document.querySelector('.big-picture');
 
   var fragment = document.createDocumentFragment();
-  var pictureElement;
 
   window.errorHandler = errorHandler;
   window.backend.load(generatePictures, errorHandler);
