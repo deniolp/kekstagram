@@ -3,6 +3,7 @@
 (function () {
 
   var KEYCODE_ESC = 27;
+  var AVATAR_LIMIT = 6;
 
   var showPicture = function (data, element) {
     var commentBlockTemplate = element.querySelector('.social__comment').cloneNode(true);
@@ -20,7 +21,7 @@
 
     for (var i = 0; i < data.comments.length; i++) {
       commentBlock = commentBlockTemplate.cloneNode(true);
-      commentBlock.querySelector('img').src = 'img/avatar-' + window.utils.generateRandomNumber(1, 6) + '.svg';
+      commentBlock.querySelector('img').src = 'img/avatar-' + (i % AVATAR_LIMIT + 1) + '.svg';
       commentBlock.lastChild.textContent = data.comments[i];
       fragmentComment.appendChild(commentBlock);
     }
