@@ -36,5 +36,12 @@
     }
   });
 
+  uploadFormElement.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(uploadFormElement), function () {
+      uploadImageElement.classList.add('hidden');
+    }, window.errorHandler);
+    evt.preventDefault();
+  });
+
   window.documentPressEscHandler = documentPressEscHandler;
 })();
