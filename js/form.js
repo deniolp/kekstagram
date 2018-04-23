@@ -49,7 +49,7 @@
       previewElement.className = 'img-upload__preview--none';
       scaleElement.classList.add('hidden');
       previewElement.style.filter = '';
-    }, window.errorHandler);
+    }, window.errorMessage.show);
     evt.preventDefault();
   });
 

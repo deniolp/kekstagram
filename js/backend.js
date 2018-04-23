@@ -25,6 +25,7 @@
       xhr.timeout = 5000;
 
       xhr.open('GET', URL);
+      window.errorMessage.clear();
       xhr.send();
     },
 
@@ -51,6 +52,7 @@
       xhr.timeout = 5000;
 
       xhr.open('POST', URL);
+      window.errorMessage.clear();
       xhr.send(data);
     }
   };
