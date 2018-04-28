@@ -57,7 +57,7 @@
 
         formFiltersElement.querySelector('#' + evt.target.id).classList.add('img-filters__button--active');
 
-        window.debounce(window.changeFilter.bind(null, pictures, evt.target.id));
+        window.debounce(window.changeFilter(pictures, evt.target.id));
       }
     });
   };
