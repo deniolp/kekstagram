@@ -82,6 +82,10 @@
           }
         }); break;
       }
+      case 'filter-new': {
+        processPictures(pictures);
+        break;
+      }
     }
     processPictures(reRenderedPictures);
   };
