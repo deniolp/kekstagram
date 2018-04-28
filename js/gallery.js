@@ -50,11 +50,6 @@
     filtersElement.classList.remove('img-filters--inactive');
     filterButtonTemplate.classList.remove('img-filters__button--active');
 
-    var additionalButton = filterButtonTemplate.cloneNode(true);
-    additionalButton.textContent = 'Случайные';
-    additionalButton.id = 'filter-randomed';
-    formFiltersElement.appendChild(additionalButton);
-
     formFiltersElement.addEventListener('click', function (evt) {
       if (evt.target.type === 'button') {
 
