@@ -38,6 +38,8 @@
   var pictureTemplate = document.querySelector('#picture').content.querySelector('a');
   var picturesElements = document.querySelector('.pictures');
   var bigPictureElement = document.querySelector('.big-picture');
+  var filtersElement = document.querySelector('.img-filters');
 
   window.backend.load(processPictures, window.errorMessage.show);
+  filtersElement.classList.remove('img-filters--inactive');
 })();
