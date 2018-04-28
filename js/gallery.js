@@ -17,7 +17,7 @@
     };
   };
 
-  var removePicture = function () {
+  var removePictures = function () {
     var allPhotos = picturesElements.querySelectorAll('.picture__link');
 
     allPhotos.forEach(function (item) {
@@ -45,7 +45,6 @@
 
   var successLoadHandler = function (pictures) {
 
-    removePicture();
     addPictures(pictures);
     filtersElement.classList.remove('img-filters--inactive');
     filterButtonTemplate.classList.remove('img-filters__button--active');
@@ -57,7 +56,8 @@
         });
         formFiltersElement.querySelector('#' + evt.target.id).classList.add('img-filters__button--active');
 
-        window.debounce(window.createFilterPicturesFunction(pictures, evt.target.id));
+        removePictures();
+        window.debounce(window.addFilteredPictures(pictures, evt.target.id));
       }
     });
   };

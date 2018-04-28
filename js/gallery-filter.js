@@ -26,7 +26,7 @@
     }
   };
 
-  var createFilterPicturesFunction = function (pictures, sorterName) {
+  var addFilteredPictures = function (pictures, sorterName) {
     return function () {
       var sortBy = sorters[sorterName];
       var copiedPictures = pictures.slice();
@@ -36,5 +36,5 @@
     };
   };
 
-  window.createFilterPicturesFunction = createFilterPicturesFunction;
+  window.addFilteredPictures = addFilteredPictures;
 })();
