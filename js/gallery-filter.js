@@ -10,12 +10,11 @@
     });
   };
 
-  var createFilter = function (pictures, filter) {
-    var picturesCopy = pictures.slice();
+  var createFilter = function (filter) {
 
     switch (filter) {
       case 'filter-popular':
-        return picturesCopy.sort(function (a, b) {
+        return (function (a, b) {
           if (a.likes > b.likes) {
             return -1;
           } else if (a.likes < b.likes) {
@@ -25,7 +24,7 @@
           }
         });
       case 'filter-discussed':
-        return picturesCopy.sort(function (a, b) {
+        return (function (a, b) {
           if (a.comments.length > b.comments.length) {
             return -1;
           } else if (a.comments.length < b.comments.length) {
@@ -35,11 +34,11 @@
           }
         });
       case 'filter-randomed':
-        return picturesCopy.sort(function () {
+        return (function () {
           return Math.random() - 0.5;
         });
       default:
-        return pictures;
+        return false;
     }
   };
 
@@ -47,8 +46,11 @@
     return function () {
 
       removePhotos();
-
-      window.processPictures(createFilter(pictures, filter));
+      if (filter === 'filter-new') {
+        window.processPictures(pictures);
+      } else {
+        window.processPictures(pictures.slice().sort(createFilter(filter)));
+      }
     };
   };
 
