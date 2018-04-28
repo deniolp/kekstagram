@@ -30,9 +30,9 @@
     return function () {
       var sortBy = sorters[sorterName];
       var copiedPictures = pictures.slice();
-      var sortedPictures = sortBy ? copiedPictures(sortBy) : copiedPictures;
+      var sortedPictures = sortBy ? copiedPictures.sort(sortBy) : copiedPictures;
 
-      window.processPictures(sortedPictures);
+      window.addPictures(sortedPictures);
     };
   };
 

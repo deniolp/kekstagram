@@ -17,7 +17,15 @@
     };
   };
 
-  var processPictures = function (pictures) {
+  var removePicture = function () {
+    var allPhotos = picturesElements.querySelectorAll('.picture__link');
+
+    allPhotos.forEach(function (item) {
+      item.remove();
+    });
+  };
+
+  var addPictures = function (pictures) {
     var pictureData;
     var pictureElement;
     var fragment = document.createDocumentFragment();
@@ -35,9 +43,10 @@
     picturesElements.appendChild(fragment);
   };
 
-  var successHandler = function (pictures) {
+  var successLoadHandler = function (pictures) {
 
-    processPictures(pictures);
+    removePicture();
+    addPictures(pictures);
     filtersElement.classList.remove('img-filters--inactive');
     filterButtonTemplate.classList.remove('img-filters__button--active');
 
@@ -57,7 +66,7 @@
 
         formFiltersElement.querySelector('#' + evt.target.id).classList.add('img-filters__button--active');
 
-        window.debounce(window.changeFilter(pictures, evt.target.id));
+        window.debounce(window.createFilterPictures(pictures, evt.target.id));
       }
     });
   };
@@ -70,6 +79,6 @@
   var formFiltersElement = document.querySelector('.img-filters__form');
   var filterButtonTemplate = formFiltersElement.querySelector('.img-filters__button');
 
-  window.processPictures = processPictures;
-  window.backend.load(successHandler, window.errorMessage.show);
+  window.addPictures = addPictures;
+  window.backend.load(successLoadHandler, window.errorMessage.show);
 })();
