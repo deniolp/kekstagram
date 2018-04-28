@@ -43,6 +43,7 @@
     filtersElement.classList.remove('img-filters--inactive');
 
     additionalButton.textContent = 'Случайные';
+    additionalButton.id = 'filter-randomed';
     formFiltersElement.appendChild(additionalButton);
 
     formFiltersElement.addEventListener('click', function (evt) {
@@ -88,6 +89,13 @@
           } else {
             return 0;
           }
+        });
+        processPictures(picturesToReRender);
+        break;
+      }
+      case 'filter-randomed': {
+        picturesToReRender = picturesCopy.sort(function () {
+          return Math.random() - 0.5;
         });
         processPictures(picturesToReRender);
         break;
