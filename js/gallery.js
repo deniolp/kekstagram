@@ -48,7 +48,7 @@
 
     formFiltersElement.addEventListener('click', function (evt) {
       if (evt.target.type === 'button') {
-        window.debounce(changeFilter(pictures, evt.target.id));
+        window.debounce(changeFilter.bind(null, pictures, evt.target.id));
       }
     });
   };
