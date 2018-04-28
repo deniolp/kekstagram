@@ -69,7 +69,18 @@
           } else {
             return 0;
           }
-        });
+        }); break;
+      }
+      case 'filter-discussed': {
+        reRenderedPictures = picturesCopy.sort(function (a, b) {
+          if (a.comments.length > b.comments.length) {
+            return -1;
+          } else if (a.comments.length < b.comments.length) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }); break;
       }
     }
     processPictures(reRenderedPictures);
