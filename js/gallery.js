@@ -36,12 +36,12 @@
   };
 
   var successHandler = function (pictures) {
-
-    var additionalButton = filterButtonTemplate.cloneNode(true);
+    filterButtonTemplate.classList.remove('img-filters__button--active');
 
     processPictures(pictures);
     filtersElement.classList.remove('img-filters--inactive');
 
+    var additionalButton = filterButtonTemplate.cloneNode(true);
     additionalButton.textContent = 'Случайные';
     additionalButton.id = 'filter-randomed';
     formFiltersElement.appendChild(additionalButton);
