@@ -2,59 +2,39 @@
 
 (function () {
 
-  var removePhotos = function () {
-    var allPhotos = picturesElements.querySelectorAll('.picture__link');
-
-    allPhotos.forEach(function (item) {
-      item.remove();
-    });
-  };
-
-  var createFilter = function (filter) {
-
-    switch (filter) {
-      case 'filter-popular':
-        return (function (a, b) {
-          if (a.likes > b.likes) {
-            return -1;
-          } else if (a.likes < b.likes) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-      case 'filter-discussed':
-        return (function (a, b) {
-          if (a.comments.length > b.comments.length) {
-            return -1;
-          } else if (a.comments.length < b.comments.length) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-      case 'filter-randomed':
-        return (function () {
-          return Math.random() - 0.5;
-        });
-      default:
-        return false;
+  var sorters = {
+    'filter-popular': function (a, b) {
+      if (a.likes > b.likes) {
+        return -1;
+      } else if (a.likes < b.likes) {
+        return 1;
+      } else {
+        return 0;
+      }
+    },
+    'filter-discussed': function (a, b) {
+      if (a.comments.length > b.comments.length) {
+        return -1;
+      } else if (a.comments.length < b.comments.length) {
+        return 1;
+      } else {
+        return 0;
+      }
+    },
+    'filter-randomed': function () {
+      return Math.random() - 0.5;
     }
   };
 
-  var changeFilter = function (pictures, filter) {
+  var createFilterPictures = function (pictures, sorterName) {
     return function () {
+      var sortBy = sorters[sorterName];
+      var copiedPictures = pictures.slice();
+      var sortedPictures = sortBy ? copiedPictures(sortBy) : copiedPictures;
 
-      removePhotos();
-      if (filter === 'filter-new') {
-        window.processPictures(pictures);
-      } else {
-        window.processPictures(pictures.slice().sort(createFilter(filter)));
-      }
+      window.processPictures(sortedPictures);
     };
   };
 
-  var picturesElements = document.querySelector('.pictures');
-
-  window.changeFilter = changeFilter;
+  window.createFilterPictures = createFilterPictures;
 })();
