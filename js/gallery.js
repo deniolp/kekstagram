@@ -61,13 +61,13 @@
 
   var changeFilter = function (pictures, filter) {
     var picturesCopy = pictures.slice();
-    var reRenderedPictures;
+    var picturesToReRender;
 
     removePhotos();
 
     switch (filter) {
       case 'filter-popular': {
-        reRenderedPictures = picturesCopy.sort(function (a, b) {
+        picturesToReRender = picturesCopy.sort(function (a, b) {
           if (a.likes > b.likes) {
             return -1;
           } else if (a.likes < b.likes) {
@@ -76,10 +76,11 @@
             return 0;
           }
         });
+        processPictures(picturesToReRender);
         break;
       }
       case 'filter-discussed': {
-        reRenderedPictures = picturesCopy.sort(function (a, b) {
+        picturesToReRender = picturesCopy.sort(function (a, b) {
           if (a.comments.length > b.comments.length) {
             return -1;
           } else if (a.comments.length < b.comments.length) {
@@ -88,6 +89,7 @@
             return 0;
           }
         });
+        processPictures(picturesToReRender);
         break;
       }
       case 'filter-new': {
@@ -95,7 +97,6 @@
         break;
       }
     }
-    processPictures(reRenderedPictures);
   };
 
   var pictureTemplate = document.querySelector('#picture').content.querySelector('a');
