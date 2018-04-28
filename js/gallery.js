@@ -36,10 +36,10 @@
   };
 
   var successHandler = function (pictures) {
-    filterButtonTemplate.classList.remove('img-filters__button--active');
 
     processPictures(pictures);
     filtersElement.classList.remove('img-filters--inactive');
+    filterButtonTemplate.classList.remove('img-filters__button--active');
 
     var additionalButton = filterButtonTemplate.cloneNode(true);
     additionalButton.textContent = 'Случайные';
@@ -58,7 +58,6 @@
         formFiltersElement.querySelector('#' + evt.target.id).classList.add('img-filters__button--active');
 
         window.debounce(window.changeFilter.bind(null, pictures, evt.target.id));
-        window.processPictures = processPictures;
       }
     });
   };
@@ -71,5 +70,6 @@
   var formFiltersElement = document.querySelector('.img-filters__form');
   var filterButtonTemplate = formFiltersElement.querySelector('.img-filters__button');
 
+  window.processPictures = processPictures;
   window.backend.load(successHandler, window.errorMessage.show);
 })();
