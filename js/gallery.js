@@ -48,6 +48,15 @@
 
     formFiltersElement.addEventListener('click', function (evt) {
       if (evt.target.type === 'button') {
+
+        var allFilters = formFiltersElement.querySelectorAll('.img-filters__button');
+
+        allFilters.forEach(function (item) {
+          item.classList.remove('img-filters__button--active');
+        });
+
+        formFiltersElement.querySelector('#' + evt.target.id).classList.add('img-filters__button--active');
+
         window.debounce(changeFilter.bind(null, pictures, evt.target.id));
       }
     });
