@@ -52,13 +52,9 @@
 
     formFiltersElement.addEventListener('click', function (evt) {
       if (evt.target.type === 'button') {
-
-        var allFilters = formFiltersElement.querySelectorAll('.img-filters__button');
-
         allFilters.forEach(function (item) {
           item.classList.remove('img-filters__button--active');
         });
-
         formFiltersElement.querySelector('#' + evt.target.id).classList.add('img-filters__button--active');
 
         window.debounce(window.createFilterPictures(pictures, evt.target.id));
@@ -73,6 +69,7 @@
   var filtersElement = document.querySelector('.img-filters');
   var formFiltersElement = document.querySelector('.img-filters__form');
   var filterButtonTemplate = formFiltersElement.querySelector('.img-filters__button');
+  var allFilters = formFiltersElement.querySelectorAll('.img-filters__button');
 
   window.addPictures = addPictures;
   window.backend.load(successLoadHandler, window.errorMessage.show);
