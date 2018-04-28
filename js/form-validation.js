@@ -5,6 +5,14 @@
   var HASHTAGS_MAX_QUANTITY = 5;
   var HASHTAG_MAX_LENGTH = 20;
 
+  var Errors = {
+    HASHTAGS_TOO_MUCH: 'У вас слишком много хэштегов, можно не больше 5',
+    HASHTAG_HAS_NO_HASH: 'Каждый хэштег должен начинаться с символа #',
+    HASHTAG_TOO_LONG: 'Хэштег не должен быть длиннее 20 символов',
+    HASHTAG_ONLY_HASH: 'Хэштег не должен состоять только из одной #',
+    HASHTAG_HAS_DOUBLE: 'Пожалуйста, уберите повторяющийся хэштег'
+  };
+
   var validateHashtags = function () {
     var hashtags = hashtagInputElement.value.toLowerCase().trim();
     var hashtagsForTest = hashtags.split(' ');
@@ -17,19 +25,19 @@
     }
 
     if (hashtagsForTest.length > HASHTAGS_MAX_QUANTITY) {
-      hashtagInputElement.setCustomValidity('У вас слишком много хэштегов, можно не больше 5');
+      hashtagInputElement.setCustomValidity(Errors.HASHTAGS_TOO_MUCH);
       return;
     }
 
     for (var i = 0; i < hashtagsForTest.length; i++) {
       if (hashtagsForTest[i].charAt(0) !== '#') {
-        hashtagInputElement.setCustomValidity('Каждый хэштег должен начинаться с символа #');
+        hashtagInputElement.setCustomValidity(Errors.HASHTAG_HAS_NO_HASH);
         return;
       } else if (hashtagsForTest[i].length > HASHTAG_MAX_LENGTH) {
-        hashtagInputElement.setCustomValidity('Хэштег не должен быть длиннее 20 символов');
+        hashtagInputElement.setCustomValidity(Errors.HASHTAG_TOO_LONG);
         return;
       } else if (hashtagsForTest[i] === '#') {
-        hashtagInputElement.setCustomValidity('Хэштег не должен состоять только из одной #');
+        hashtagInputElement.setCustomValidity(Errors.HASHTAG_ONLY_HASH);
         return;
       }
       if (testDoubleHashtags.includes(hashtagsForTest[i]) && !doubleHashtags.includes(hashtagsForTest[i])) {
@@ -39,7 +47,7 @@
       }
     }
     if (doubleHashtags.length > 0) {
-      hashtagInputElement.setCustomValidity('Пожалуйста, уберите повторяющийся хэштег');
+      hashtagInputElement.setCustomValidity(Errors.HASHTAG_HAS_DOUBLE);
       return;
     }
   };
