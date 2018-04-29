@@ -26,6 +26,7 @@
           num = 0;
         }
         commentBlock.lastChild.textContent = data.comments[num + i];
+        commentCountElement.firstChild.textContent = currentCommentNumber + i + 1 + ' из ';
         fragmentComment.appendChild(commentBlock);
       }
       currentCommentNumber = num + COMMENTS_DOSE;
