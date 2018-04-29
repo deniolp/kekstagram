@@ -13,14 +13,22 @@
     var loadMoreButton = element.querySelector('.social__comment-loadmore');
     var commentCountElement = element.querySelector('.social__comment-count');
     var commentBlock;
+    var currentCommentNumber = 0;
 
-    var addComments = function () {
+    var addComments = function (num) {
       for (var i = 0; i < COMMENTS_DOSE; i++) {
+        if (currentCommentNumber + i >= data.comments.length) {
+          break;
+        }
         commentBlock = commentBlockTemplate.cloneNode(true);
         commentBlock.querySelector('img').src = 'img/avatar-' + (i % AVATAR_LIMIT + 1) + '.svg';
-        commentBlock.lastChild.textContent = data.comments[i];
+        if (!num) {
+          num = 0;
+        }
+        commentBlock.lastChild.textContent = data.comments[num + i];
         fragmentComment.appendChild(commentBlock);
       }
+      currentCommentNumber = num + COMMENTS_DOSE;
     };
 
     element.classList.remove('hidden');
@@ -29,11 +37,10 @@
     element.querySelector('.comments-count').textContent = data.comments.length;
     element.querySelector('.social__caption').textContent = data.description;
 
-    var currentCommentNumber = COMMENTS_DOSE;
     addComments();
 
     loadMoreButton.addEventListener('click', function () {
-      addComments();
+      addComments(currentCommentNumber);
       commentsBlock.appendChild(fragmentComment);
     });
 
