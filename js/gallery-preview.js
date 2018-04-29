@@ -4,30 +4,50 @@
 
   var KEYCODE_ESC = 27;
   var AVATAR_LIMIT = 6;
+  var COMMENTS_PER_PAGE = 5;
 
   var showPicture = function (data, element) {
+    var commentsBlockElement = element.querySelector('.social__comments');
     var commentBlockTemplate = element.querySelector('.social__comment').cloneNode(true);
-    var commentsBlock = element.querySelector('.social__comments');
-    var fragmentComment = document.createDocumentFragment();
-    var commentBlock;
+    var commentCounterElement = element.querySelector('.social__comment-count');
+    var loadMoreButton = element.querySelector('.social__comment-loadmore');
+    var commentCounter = 0;
+
+    var createMoreComments = function () {
+      var commentBlock;
+      var fragmentComment = document.createDocumentFragment();
+
+      for (var i = 0; i < COMMENTS_PER_PAGE; i++) {
+        if (commentCounter + i >= data.comments.length) {
+          break;
+        }
+
+        commentBlock = commentBlockTemplate.cloneNode(true);
+
+        commentBlock.querySelector('img').src = 'img/avatar-' + (i % AVATAR_LIMIT + 1) + '.svg';
+        commentBlock.lastChild.textContent = data.comments[commentCounter + i];
+
+        fragmentComment.appendChild(commentBlock);
+      }
+
+      commentCounterElement.firstChild.textContent = commentCounter + i + ' из ';
+      commentCounter = commentCounter + COMMENTS_PER_PAGE;
+
+      return fragmentComment;
+    };
 
     element.classList.remove('hidden');
-    element.querySelector('.social__comment-count').classList.add('visually-hidden');
-    element.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
     element.querySelector('.big-picture__img').querySelector('img').src = data.url;
     element.querySelector('.likes-count').textContent = data.likes;
     element.querySelector('.comments-count').textContent = data.comments.length;
     element.querySelector('.social__caption').textContent = data.description;
 
-    for (var i = 0; i < data.comments.length; i++) {
-      commentBlock = commentBlockTemplate.cloneNode(true);
-      commentBlock.querySelector('img').src = 'img/avatar-' + (i % AVATAR_LIMIT + 1) + '.svg';
-      commentBlock.lastChild.textContent = data.comments[i];
-      fragmentComment.appendChild(commentBlock);
-    }
+    loadMoreButton.addEventListener('click', function () {
+      commentsBlockElement.appendChild(createMoreComments());
+    });
 
-    commentsBlock.innerHTML = '';
-    commentsBlock.appendChild(fragmentComment);
+    commentsBlockElement.innerHTML = '';
+    commentsBlockElement.appendChild(createMoreComments());
   };
 
   var bigPictureElement = document.querySelector('.big-picture');
