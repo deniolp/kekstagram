@@ -1031,6 +1031,7 @@ main {
 .social__comment-loadmore {
   position: relative;
   color: #3b77c0;
+  cursor: pointer;
 }
 
 .social__comment-loadmore::after {
