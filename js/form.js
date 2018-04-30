@@ -74,7 +74,6 @@
       previewElement.style.filter = '';
     };
 
-    window.errorMessage.clear();
     window.backend.save(data, onSuccessSaved, window.errorMessage.show);
 
     evt.preventDefault();
