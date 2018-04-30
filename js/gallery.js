@@ -13,7 +13,7 @@
 
   var createPictureClickHandler = function (data, element) {
     return function () {
-      window.showPicture(data, element);
+      window.galleryPreview.showPicture(data, element);
     };
   };
 
@@ -57,7 +57,7 @@
 
         window.debounce(function () {
           removePictures();
-          window.addFilteredPictures(pictures, evt.target.id);
+          window.galleryFilter.addFilteredPictures(pictures, evt.target.id);
         });
       }
     });

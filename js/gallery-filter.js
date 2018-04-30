@@ -26,13 +26,13 @@
     }
   };
 
-  var addFilteredPictures = function (pictures, sorterName) {
-    var sortBy = sorters[sorterName];
-    var copiedPictures = pictures.slice();
-    var sortedPictures = sortBy ? copiedPictures.sort(sortBy) : copiedPictures;
+  window.galleryFilter = {
+    addFilteredPictures: function (pictures, sorterName) {
+      var sortBy = sorters[sorterName];
+      var copiedPictures = pictures.slice();
+      var sortedPictures = sortBy ? copiedPictures.sort(sortBy) : copiedPictures;
 
-    window.addPictures(sortedPictures);
+      window.addPictures(sortedPictures);
+    }
   };
-
-  window.addFilteredPictures = addFilteredPictures;
 })();
