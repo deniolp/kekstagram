@@ -56,8 +56,10 @@
         });
         formFiltersElement.querySelector('#' + evt.target.id).classList.add('img-filters__button--active');
 
-        removePictures();
-        window.debounce(window.addFilteredPictures(pictures, evt.target.id));
+        window.debounce(function () {
+          removePictures();
+          window.addFilteredPictures(pictures, evt.target.id);
+        });
       }
     });
   };

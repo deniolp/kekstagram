@@ -27,13 +27,11 @@
   };
 
   var addFilteredPictures = function (pictures, sorterName) {
-    return function () {
-      var sortBy = sorters[sorterName];
-      var copiedPictures = pictures.slice();
-      var sortedPictures = sortBy ? copiedPictures.sort(sortBy) : copiedPictures;
+    var sortBy = sorters[sorterName];
+    var copiedPictures = pictures.slice();
+    var sortedPictures = sortBy ? copiedPictures.sort(sortBy) : copiedPictures;
 
-      window.addPictures(sortedPictures);
-    };
+    window.addPictures(sortedPictures);
   };
 
   window.addFilteredPictures = addFilteredPictures;
