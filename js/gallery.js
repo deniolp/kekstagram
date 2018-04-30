@@ -47,7 +47,6 @@
 
     addPictures(pictures);
     filtersElement.classList.remove('img-filters--inactive');
-    filterButtonTemplate.classList.remove('img-filters__button--active');
 
     formFiltersElement.addEventListener('click', function (evt) {
       if (evt.target.type === 'button') {
@@ -70,7 +69,6 @@
 
   var filtersElement = document.querySelector('.img-filters');
   var formFiltersElement = document.querySelector('.img-filters__form');
-  var filterButtonTemplate = formFiltersElement.querySelector('.img-filters__button');
   var allFilters = formFiltersElement.querySelectorAll('.img-filters__button');
 
   window.addPictures = addPictures;
