@@ -26,11 +26,11 @@
 
         commentBlock.querySelector('img').src = 'img/avatar-' + (i % AVATAR_LIMIT + 1) + '.svg';
         commentBlock.lastChild.textContent = data.comments[commentCounter + i];
+        commentCounterElement.firstChild.textContent = commentCounter + i + 1 + ' из ';
 
         fragmentComment.appendChild(commentBlock);
       }
 
-      commentCounterElement.firstChild.textContent = commentCounter + i + ' из ';
       commentCounter = commentCounter + COMMENTS_PER_PAGE;
 
       return fragmentComment;
