@@ -11,10 +11,12 @@
   window.errorMessage = {
     show: function (errorMessage) {
       errorElement.textContent = errorMessage;
+      document.body.insertAdjacentElement('afterbegin', errorElement);
 
-      if (!document.body.contains(errorElement)) {
-        document.body.insertAdjacentElement('afterbegin', errorElement);
+      if (errorElement.classList.contains('hidden')) {
+        errorElement.classList.remove('hidden');
       }
+
       setTimeout(function () {
         errorElement.classList.add('hidden');
       }, ERROR_TIMEOUT);
