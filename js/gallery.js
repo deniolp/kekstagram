@@ -18,9 +18,9 @@
   };
 
   var removePictures = function () {
-    var allPhotos = picturesElements.querySelectorAll('.picture__link');
+    var allPictures = picturesElements.querySelectorAll('.picture__link');
 
-    allPhotos.forEach(function (item) {
+    allPictures.forEach(function (item) {
       item.remove();
     });
   };
