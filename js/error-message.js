@@ -1,24 +1,30 @@
 'use strict';
 
 (function () {
-  var ERROR_TIMEOUT = 5000;
-
-  var errorElement = document.createElement('div');
-
-  errorElement.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; height: 50px; padding-top: 10px; position: absolute; left: 0; right: 0; font-size: 30px';
-  errorElement.className = 'error';
+  var ERROR_TIMEOUT = 7500;
 
   window.errorMessage = {
     show: function (errorMessage) {
-      errorElement.textContent = errorMessage;
-      document.body.insertAdjacentElement('afterbegin', errorElement);
+      var errorElement = document.createElement('div');
 
-      if (errorElement.classList.contains('hidden')) {
-        errorElement.classList.remove('hidden');
-      }
+      errorElement.style.backgroundColor = 'red';
+      errorElement.style.margin = '0 auto';
+      errorElement.style.textAlign = 'center';
+      errorElement.style.height = '50px';
+      errorElement.style.paddingTop = '10px';
+      errorElement.style.position = 'absolute';
+      errorElement.style.top = 0;
+      errorElement.style.left = 0;
+      errorElement.style.right = 0;
+      errorElement.style.fontSize = '30px';
+      errorElement.style.zIndex = 100;
+
+      errorElement.textContent = errorMessage;
+
+      document.body.appendChild(errorElement);
 
       setTimeout(function () {
-        errorElement.classList.add('hidden');
+        document.body.removeChild(errorElement);
       }, ERROR_TIMEOUT);
     }
   };
