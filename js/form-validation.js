@@ -53,10 +53,9 @@
   };
 
   var uploadFormElement = document.querySelector('.img-upload__form');
-  var submitPictureElement = uploadFormElement.querySelector('.img-upload__submit');
   var hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
 
-  submitPictureElement.addEventListener('click', function () {
+  hashtagInputElement.addEventListener('keyup', function () {
     validateHashtags();
   });
 })();
