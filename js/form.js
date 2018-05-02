@@ -20,7 +20,7 @@
   var uploadImageElement = uploadFormElement.querySelector('.img-upload__overlay');
   var uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
   var uploadImageCancelElement = uploadFormElement.querySelector('.img-upload__cancel');
-  var resizeValue = uploadFormElement.querySelector('.resize__control--value');
+  var resizeValueElement = uploadFormElement.querySelector('.resize__control--value');
   var previewElement = uploadFormElement.querySelector('.img-upload__preview');
   var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
   var commentTextareaElement = uploadFormElement.querySelector('.text__description');
@@ -66,7 +66,7 @@
 
       hideUploadOverlay();
 
-      resizeValue.value = '100%';
+      resizeValueElement.value = '100%';
       scaleElement.classList.add('hidden');
 
       previewElement.className = 'img-upload__preview--none';

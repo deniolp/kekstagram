@@ -11,7 +11,7 @@
       var commentsBlockElement = element.querySelector('.social__comments');
       var commentBlockTemplate = element.querySelector('.social__comment').cloneNode(true);
       var commentCounterElement = element.querySelector('.social__comment-count');
-      var loadMoreButton = element.querySelector('.social__comment-loadmore');
+      var loadMoreButtonElement = element.querySelector('.social__comment-loadmore');
       var commentCounter = 0;
 
       var createMoreComments = function () {
@@ -44,7 +44,7 @@
       element.querySelector('.comments-count').textContent = data.comments.length;
       element.querySelector('.social__caption').textContent = data.description;
 
-      loadMoreButton.addEventListener('click', function () {
+      loadMoreButtonElement.addEventListener('click', function () {
         commentsBlockElement.appendChild(createMoreComments());
       });
 
