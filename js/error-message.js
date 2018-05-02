@@ -2,10 +2,20 @@
 
 (function () {
   var ERROR_TIMEOUT = 7500;
+  var uploadFormElement = document.querySelector('.img-upload__form');
+  var uploadImageElement = uploadFormElement.querySelector('.img-upload__overlay');
+  var uploadFileInputElement = uploadFormElement.querySelector('#upload-file');
+  var errorCenterElement = document.querySelector('.img-upload__message--error');
 
   window.errorMessage = {
     show: function (errorMessage) {
       var errorElement = document.createElement('div');
+
+      if (errorCenterElement.classList.contains('hidden')) {
+        errorCenterElement.classList.remove('hidden');
+        uploadImageElement.classList.add('hidden');
+        uploadFileInputElement.value = '';
+      }
 
       errorElement.style.backgroundColor = 'red';
       errorElement.style.margin = '0 auto';
