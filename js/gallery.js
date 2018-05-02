@@ -71,6 +71,9 @@
   var formFiltersElement = document.querySelector('.img-filters__form');
   var allFilters = formFiltersElement.querySelectorAll('.img-filters__button');
 
-  window.addPictures = addPictures;
+  window.gallery = {
+    addPictures: addPictures
+  };
+
   window.backend.load(successLoadHandler, window.errorMessage.show);
 })();

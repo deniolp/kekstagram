@@ -32,7 +32,7 @@
       var copiedPictures = pictures.slice();
       var sortedPictures = sortBy ? copiedPictures.sort(sortBy) : copiedPictures;
 
-      window.addPictures(sortedPictures);
+      window.gallery.addPictures(sortedPictures);
     }
   };
 })();

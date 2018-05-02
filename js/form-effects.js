@@ -13,7 +13,9 @@
   var EFFECT_SEPIA_DEFAULT_VALUE = 1;
   var EFFECT_INVERT_DEFAULT_VALUE = 100;
   var EFFECT_BLUR_DEFAULT_VALUE = 3;
+  var EFFECT_BLUR_RATIO = 0.03;
   var EFFECT_BRIGHTNESS_DEFAULT_VALUE = 3;
+  var EFFECT_BRIGHTNESS_RATIO = 0.02;
   var PIN_WIDTH = 18;
 
   var mouseDownHandler = function (downEvt) {
@@ -101,9 +103,9 @@
       case 'marvin':
         return 'invert(' + effectIntensity + '%)';
       case 'phobos':
-        return 'blur(' + effectIntensity * EFFECT_BLUR_DEFAULT_VALUE / 100 + 'px)';
+        return 'blur(' + effectIntensity * EFFECT_BLUR_RATIO + 'px)';
       case 'heat':
-        return 'brightness(' + (effectIntensity * (EFFECT_BRIGHTNESS_DEFAULT_VALUE - 1) / 100 + 1) + ')';
+        return 'brightness(' + (effectIntensity * EFFECT_BRIGHTNESS_RATIO + 1) + ')';
       default:
         return 'none';
     }

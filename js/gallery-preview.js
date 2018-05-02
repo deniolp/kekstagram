@@ -11,7 +11,7 @@
       var commentsBlockElement = element.querySelector('.social__comments');
       var commentBlockTemplate = element.querySelector('.social__comment').cloneNode(true);
       var commentCounterElement = element.querySelector('.social__comment-count');
-      var loadMoreButton = element.querySelector('.social__comment-loadmore');
+      var loadMoreButtonElement = element.querySelector('.social__comment-loadmore');
       var commentCounter = 0;
 
       var createMoreComments = function () {
@@ -38,12 +38,13 @@
       };
 
       element.classList.remove('hidden');
+      bodyElement.classList.add('modal-open');
       element.querySelector('.big-picture__img').querySelector('img').src = data.url;
       element.querySelector('.likes-count').textContent = data.likes;
       element.querySelector('.comments-count').textContent = data.comments.length;
       element.querySelector('.social__caption').textContent = data.description;
 
-      loadMoreButton.addEventListener('click', function () {
+      loadMoreButtonElement.addEventListener('click', function () {
         commentsBlockElement.appendChild(createMoreComments());
       });
 
@@ -52,16 +53,19 @@
     }
   };
 
+  var bodyElement = document.querySelector('body');
   var bigPictureElement = document.querySelector('.big-picture');
   var bigPictureCancelElement = bigPictureElement.querySelector('#picture-cancel');
 
   bigPictureCancelElement.addEventListener('click', function () {
     bigPictureElement.classList.add('hidden');
+    bodyElement.classList.remove('modal-open');
   });
 
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEYCODE_ESC) {
       bigPictureElement.classList.add('hidden');
+      bodyElement.classList.remove('modal-open');
     }
   });
 })();
