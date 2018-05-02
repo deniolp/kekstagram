@@ -38,6 +38,7 @@
       };
 
       element.classList.remove('hidden');
+      bodyElement.classList.add('modal-open');
       element.querySelector('.big-picture__img').querySelector('img').src = data.url;
       element.querySelector('.likes-count').textContent = data.likes;
       element.querySelector('.comments-count').textContent = data.comments.length;
@@ -52,16 +53,19 @@
     }
   };
 
+  var bodyElement = document.querySelector('body');
   var bigPictureElement = document.querySelector('.big-picture');
   var bigPictureCancelElement = bigPictureElement.querySelector('#picture-cancel');
 
   bigPictureCancelElement.addEventListener('click', function () {
     bigPictureElement.classList.add('hidden');
+    bodyElement.classList.remove('modal-open');
   });
 
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEYCODE_ESC) {
       bigPictureElement.classList.add('hidden');
+      bodyElement.classList.remove('modal-open');
     }
   });
 })();
