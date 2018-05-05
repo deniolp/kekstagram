@@ -11,9 +11,8 @@
   };
 
   var documentPressEscHandler = function (evt) {
-    if (evt.keyCode === KEYCODE_ESC) {
+    if (hideOverlayFlag && evt.keyCode === KEYCODE_ESC) {
       hideUploadOverlay();
-      document.removeEventListener('keydown', documentPressEscHandler);
     }
   };
 
@@ -26,38 +25,38 @@
   var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
   var commentTextareaElement = uploadFormElement.querySelector('.text__description');
   var hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
+  var hideOverlayFlag = true;
+
+  document.addEventListener('keydown', documentPressEscHandler);
 
   uploadFileInputElement.addEventListener('change', function () {
     uploadImageElement.classList.remove('hidden');
-    document.addEventListener('keydown', documentPressEscHandler);
   });
 
   uploadImageCancelElement.addEventListener('click', function () {
     hideUploadOverlay();
-    document.removeEventListener('keydown', documentPressEscHandler);
   });
 
   uploadImageCancelElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEYCODE_ENTER) {
       hideUploadOverlay();
-      document.removeEventListener('keydown', documentPressEscHandler);
     }
   });
 
   hashtagInputElement.addEventListener('focus', function () {
-    document.removeEventListener('keydown', documentPressEscHandler);
+    hideOverlayFlag = false;
   });
 
   hashtagInputElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', documentPressEscHandler);
+    hideOverlayFlag = true;
   });
 
   commentTextareaElement.addEventListener('focus', function () {
-    document.removeEventListener('keydown', documentPressEscHandler);
+    hideOverlayFlag = false;
   });
 
   commentTextareaElement.addEventListener('focusout', function () {
-    document.addEventListener('keydown', documentPressEscHandler);
+    hideOverlayFlag = true;
   });
 
   uploadFormElement.addEventListener('submit', function (evt) {
