@@ -13,6 +13,7 @@
   var documentPressEscHandler = function (evt) {
     if (evt.keyCode === KEYCODE_ESC) {
       hideUploadOverlay();
+      document.removeEventListener('keydown', documentPressEscHandler);
     }
   };
 
