@@ -11,7 +11,7 @@
   };
 
   var documentPressEscHandler = function (evt) {
-    if (hideOverlayByFlag && evt.keyCode === KEYCODE_ESC) {
+    if (hideOverlayFlag && evt.keyCode === KEYCODE_ESC) {
       hideUploadOverlay();
     }
   };
@@ -25,7 +25,7 @@
   var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
   var commentTextareaElement = uploadFormElement.querySelector('.text__description');
   var hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
-  var hideOverlayByFlag = true;
+  var hideOverlayFlag = true;
 
   document.addEventListener('keydown', documentPressEscHandler);
 
@@ -44,19 +44,19 @@
   });
 
   hashtagInputElement.addEventListener('focus', function () {
-    hideOverlayByFlag = false;
+    hideOverlayFlag = false;
   });
 
   hashtagInputElement.addEventListener('focusout', function () {
-    hideOverlayByFlag = true;
+    hideOverlayFlag = true;
   });
 
   commentTextareaElement.addEventListener('focus', function () {
-    hideOverlayByFlag = false;
+    hideOverlayFlag = false;
   });
 
   commentTextareaElement.addEventListener('focusout', function () {
-    hideOverlayByFlag = true;
+    hideOverlayFlag = true;
   });
 
   uploadFormElement.addEventListener('submit', function (evt) {
