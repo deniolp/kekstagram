@@ -33,10 +33,12 @@
       if (hashtagsForTest[i].charAt(0) !== '#') {
         hashtagInputElement.setCustomValidity(Errors.HASHTAG_HAS_NO_HASH);
         return;
-      } else if (hashtagsForTest[i].length > HASHTAG_MAX_LENGTH) {
+      }
+      if (hashtagsForTest[i].length > HASHTAG_MAX_LENGTH) {
         hashtagInputElement.setCustomValidity(Errors.HASHTAG_TOO_LONG);
         return;
-      } else if (hashtagsForTest[i] === '#') {
+      }
+      if (hashtagsForTest[i] === '#') {
         hashtagInputElement.setCustomValidity(Errors.HASHTAG_ONLY_HASH);
         return;
       }
