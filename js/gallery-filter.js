@@ -6,20 +6,20 @@
     'filter-popular': function (a, b) {
       if (a.likes > b.likes) {
         return -1;
-      } else if (a.likes < b.likes) {
-        return 1;
-      } else {
-        return 0;
       }
+      if (a.likes < b.likes) {
+        return 1;
+      }
+      return 0;
     },
     'filter-discussed': function (a, b) {
       if (a.comments.length > b.comments.length) {
         return -1;
-      } else if (a.comments.length < b.comments.length) {
-        return 1;
-      } else {
-        return 0;
       }
+      if (a.comments.length < b.comments.length) {
+        return 1;
+      }
+      return 0;
     },
     'filter-randomed': function () {
       return Math.random() - 0.5;
