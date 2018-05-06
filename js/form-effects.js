@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var Effects = {
+  var Effect = {
     DEFAULT: 'none',
     CHROME: 'chrome',
     SEPIA: 'sepia',
@@ -67,7 +67,7 @@
     return function () {
       currentEffect = effectName;
       previewElement.className = 'img-upload__preview effects__preview--' + effectName;
-      if (effectName === Effects.DEFAULT) {
+      if (effectName === Effect.DEFAULT) {
         scaleElement.classList.add('hidden');
       } else {
         scaleElement.classList.remove('hidden');
@@ -80,35 +80,35 @@
 
   var createDefaultStyleEffect = function (effect) {
     switch (effect) {
-      case Effects.CHROME:
+      case Effect.CHROME:
         return 'grayscale(' + EFFECT_GRAYSCALE_DEFAULT_VALUE + ')';
-      case Effects.SEPIA:
+      case Effect.SEPIA:
         return 'sepia(' + EFFECT_SEPIA_DEFAULT_VALUE + ')';
-      case Effects.MARVIN:
+      case Effect.MARVIN:
         return 'invert(' + EFFECT_INVERT_DEFAULT_VALUE + '%)';
-      case Effects.PHOBOS:
+      case Effect.PHOBOS:
         return 'blur(' + EFFECT_BLUR_DEFAULT_VALUE + 'px)';
-      case Effects.HEAT:
+      case Effect.HEAT:
         return 'brightness(' + EFFECT_BRIGHTNESS_DEFAULT_VALUE + ')';
       default:
-        return Effects.DEFAULT;
+        return Effect.DEFAULT;
     }
   };
 
   var createStyleEffect = function (effect) {
     switch (effect) {
-      case Effects.CHROME:
+      case Effect.CHROME:
         return 'grayscale(' + effectIntensity / 100 + ')';
-      case Effects.SEPIA:
+      case Effect.SEPIA:
         return 'sepia(' + effectIntensity / 100 + ')';
-      case Effects.MARVIN:
+      case Effect.MARVIN:
         return 'invert(' + effectIntensity + '%)';
-      case Effects.PHOBOS:
+      case Effect.PHOBOS:
         return 'blur(' + effectIntensity * EFFECT_BLUR_RATIO + 'px)';
-      case Effects.HEAT:
+      case Effect.HEAT:
         return 'brightness(' + (effectIntensity * EFFECT_BRIGHTNESS_RATIO + 1) + ')';
       default:
-        return Effects.DEFAULT;
+        return Effect.DEFAULT;
     }
   };
 
@@ -130,12 +130,12 @@
   };
 
   var effects = [
-    Effects.DEFAULT,
-    Effects.CHROME,
-    Effects.SEPIA,
-    Effects.MARVIN,
-    Effects.PHOBOS,
-    Effects.HEAT
+    Effect.DEFAULT,
+    Effect.CHROME,
+    Effect.SEPIA,
+    Effect.MARVIN,
+    Effect.PHOBOS,
+    Effect.HEAT
   ];
 
   var uploadFormElement = document.querySelector('.img-upload__form');
