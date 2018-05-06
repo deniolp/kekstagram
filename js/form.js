@@ -4,6 +4,8 @@
 
   var KEYCODE_ENTER = 13;
   var KEYCODE_ESC = 27;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var FILE_TYPE_ERROR = 'Ошибка формата файла';
 
   var hideUploadOverlay = function () {
     uploadImageElement.classList.add('hidden');
@@ -22,6 +24,7 @@
   var uploadImageCancelElement = uploadFormElement.querySelector('.img-upload__cancel');
   var resizeValueElement = uploadFormElement.querySelector('.resize__control--value');
   var previewElement = uploadFormElement.querySelector('.img-upload__preview');
+  var effectPreviewElement = uploadFormElement.querySelectorAll('.effects__preview');
   var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
   var commentTextareaElement = uploadFormElement.querySelector('.text__description');
   var hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
@@ -31,6 +34,29 @@
 
   uploadFileInputElement.addEventListener('change', function () {
     uploadImageElement.classList.remove('hidden');
+    var file = uploadFileInputElement.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        previewElement.querySelector('img').src = reader.result;
+
+        Array.from(effectPreviewElement).forEach(function (item) {
+          item.style.backgroundImage = 'url(' + reader.result + ')';
+        });
+      });
+
+      reader.readAsDataURL(file);
+    } else {
+      window.errorMessage.show(FILE_TYPE_ERROR);
+      uploadFormElement.reset();
+    }
   });
 
   uploadImageCancelElement.addEventListener('click', function () {
