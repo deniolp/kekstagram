@@ -1,14 +1,15 @@
 'use strict';
 
 (function () {
-  var EFFECTS = [
-    'none',
-    'chrome',
-    'sepia',
-    'marvin',
-    'phobos',
-    'heat'
-  ];
+  var Effects = {
+    DEFAULT: 'none',
+    CHROME: 'chrome',
+    SEPIA: 'sepia',
+    MARVIN: 'marvin',
+    PHOBOS: 'phobos',
+    HEAT: 'heat'
+  };
+
   var EFFECT_GRAYSCALE_DEFAULT_VALUE = 1;
   var EFFECT_SEPIA_DEFAULT_VALUE = 1;
   var EFFECT_INVERT_DEFAULT_VALUE = 100;
@@ -66,7 +67,7 @@
     return function () {
       currentEffect = effectName;
       previewElement.className = 'img-upload__preview effects__preview--' + effectName;
-      if (effectName === 'none') {
+      if (effectName === Effects.DEFAULT) {
         scaleElement.classList.add('hidden');
       } else {
         scaleElement.classList.remove('hidden');
@@ -79,35 +80,35 @@
 
   var createDefaultStyleEffect = function (effect) {
     switch (effect) {
-      case 'chrome':
+      case Effects.CHROME:
         return 'grayscale(' + EFFECT_GRAYSCALE_DEFAULT_VALUE + ')';
-      case 'sepia':
+      case Effects.SEPIA:
         return 'sepia(' + EFFECT_SEPIA_DEFAULT_VALUE + ')';
-      case 'marvin':
+      case Effects.MARVIN:
         return 'invert(' + EFFECT_INVERT_DEFAULT_VALUE + '%)';
-      case 'phobos':
+      case Effects.PHOBOS:
         return 'blur(' + EFFECT_BLUR_DEFAULT_VALUE + 'px)';
-      case 'heat':
+      case Effects.HEAT:
         return 'brightness(' + EFFECT_BRIGHTNESS_DEFAULT_VALUE + ')';
       default:
-        return 'none';
+        return Effects.DEFAULT;
     }
   };
 
   var createStyleEffect = function (effect) {
     switch (effect) {
-      case 'chrome':
+      case Effects.CHROME:
         return 'grayscale(' + effectIntensity / 100 + ')';
-      case 'sepia':
+      case Effects.SEPIA:
         return 'sepia(' + effectIntensity / 100 + ')';
-      case 'marvin':
+      case Effects.MARVIN:
         return 'invert(' + effectIntensity + '%)';
-      case 'phobos':
+      case Effects.PHOBOS:
         return 'blur(' + effectIntensity * EFFECT_BLUR_RATIO + 'px)';
-      case 'heat':
+      case Effects.HEAT:
         return 'brightness(' + (effectIntensity * EFFECT_BRIGHTNESS_RATIO + 1) + ')';
       default:
-        return 'none';
+        return Effects.DEFAULT;
     }
   };
 
@@ -128,6 +129,15 @@
     }
   };
 
+  var effects = [
+    Effects.DEFAULT,
+    Effects.CHROME,
+    Effects.SEPIA,
+    Effects.MARVIN,
+    Effects.PHOBOS,
+    Effects.HEAT
+  ];
+
   var uploadFormElement = document.querySelector('.img-upload__form');
   var previewElement = uploadFormElement.querySelector('.img-upload__preview');
   var effectElement = uploadFormElement.querySelectorAll('.effects__radio');
@@ -145,8 +155,8 @@
 
   scaleElement.classList.add('hidden');
 
-  for (var i = 0; i < EFFECTS.length; i++) {
-    effectElement[i].addEventListener('click', createEffectClickHandler(EFFECTS[i]));
+  for (var i = 0; i < effects.length; i++) {
+    effectElement[i].addEventListener('click', createEffectClickHandler(effects[i]));
   }
 
 })();
