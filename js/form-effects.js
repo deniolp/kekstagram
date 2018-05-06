@@ -10,6 +10,8 @@
     HEAT: 'heat'
   };
 
+  var TYPE_EFFECT_DEFAULT = 'default';
+  var TYPE_EFFECT_CUSTOM = 'custom';
   var EFFECT_GRAYSCALE_DEFAULT_VALUE = 1;
   var EFFECT_SEPIA_DEFAULT_VALUE = 1;
   var EFFECT_INVERT_DEFAULT_VALUE = 100;
@@ -48,7 +50,7 @@
 
       scaleValueInputElement.value = effectIntensity;
       scalePinElement.style.left = pinLeftPosition + 'px';
-      previewElement.style.filter = createStyleEffect(currentEffect);
+      previewElement.style.filter = createStyleEffect(currentEffect, TYPE_EFFECT_CUSTOM);
       scaleBarElement.style.width = effectIntensity + '%';
     };
 
@@ -72,41 +74,59 @@
       } else {
         scaleElement.classList.remove('hidden');
       }
-      previewElement.style.filter = createDefaultStyleEffect(effectName);
+      previewElement.style.filter = createStyleEffect(effectName, TYPE_EFFECT_DEFAULT);
       scalePinElement.style.left = caclulateScrollBarWidth() - PIN_WIDTH / 2 + 'px';
       scaleBarElement.style.width = 100 + '%';
     };
   };
 
-  var createDefaultStyleEffect = function (effect) {
-    switch (effect) {
-      case Effect.CHROME:
-        return 'grayscale(' + EFFECT_GRAYSCALE_DEFAULT_VALUE + ')';
-      case Effect.SEPIA:
-        return 'sepia(' + EFFECT_SEPIA_DEFAULT_VALUE + ')';
-      case Effect.MARVIN:
-        return 'invert(' + EFFECT_INVERT_DEFAULT_VALUE + '%)';
-      case Effect.PHOBOS:
-        return 'blur(' + EFFECT_BLUR_DEFAULT_VALUE + 'px)';
-      case Effect.HEAT:
-        return 'brightness(' + EFFECT_BRIGHTNESS_DEFAULT_VALUE + ')';
-      default:
-        return Effect.DEFAULT;
+  var createGreyScaleStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'grayscale(' + EFFECT_GRAYSCALE_DEFAULT_VALUE + ')';
     }
+    return 'grayscale(' + effectIntensity / 100 + ')';
   };
 
-  var createStyleEffect = function (effect) {
+  var createSepiaStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'sepia(' + EFFECT_SEPIA_DEFAULT_VALUE + ')';
+    }
+    return 'sepia(' + effectIntensity / 100 + ')';
+  };
+
+  var createInvertStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'invert(' + EFFECT_INVERT_DEFAULT_VALUE + '%)';
+    }
+    return 'invert(' + effectIntensity + '%)';
+  };
+
+  var createBlurStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'blur(' + EFFECT_BLUR_DEFAULT_VALUE + 'px)';
+    }
+    return 'blur(' + effectIntensity * EFFECT_BLUR_RATIO + 'px)';
+  };
+
+  var createBrightnessStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'brightness(' + EFFECT_BRIGHTNESS_DEFAULT_VALUE + ')';
+    }
+    return 'brightness(' + (effectIntensity * EFFECT_BRIGHTNESS_RATIO + 1) + ')';
+  };
+
+  var createStyleEffect = function (effect, effectType) {
     switch (effect) {
       case Effect.CHROME:
-        return 'grayscale(' + effectIntensity / 100 + ')';
+        return createGreyScaleStyle(effectType);
       case Effect.SEPIA:
-        return 'sepia(' + effectIntensity / 100 + ')';
+        return createSepiaStyle(effectType);
       case Effect.MARVIN:
-        return 'invert(' + effectIntensity + '%)';
+        return createInvertStyle(effectType);
       case Effect.PHOBOS:
-        return 'blur(' + effectIntensity * EFFECT_BLUR_RATIO + 'px)';
+        return createBlurStyle(effectType);
       case Effect.HEAT:
-        return 'brightness(' + (effectIntensity * EFFECT_BRIGHTNESS_RATIO + 1) + ')';
+        return createBrightnessStyle(effectType);
       default:
         return Effect.DEFAULT;
     }
