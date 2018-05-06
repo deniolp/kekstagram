@@ -129,15 +129,6 @@
     }
   };
 
-  var effects = [
-    Effect.DEFAULT,
-    Effect.CHROME,
-    Effect.SEPIA,
-    Effect.MARVIN,
-    Effect.PHOBOS,
-    Effect.HEAT
-  ];
-
   var uploadFormElement = document.querySelector('.img-upload__form');
   var previewElement = uploadFormElement.querySelector('.img-upload__preview');
   var effectElement = uploadFormElement.querySelectorAll('.effects__radio');
@@ -155,8 +146,8 @@
 
   scaleElement.classList.add('hidden');
 
-  for (var i = 0; i < effects.length; i++) {
-    effectElement[i].addEventListener('click', createEffectClickHandler(effects[i]));
-  }
+  Object.values(Effect).forEach(function (item, index) {
+    effectElement[index].addEventListener('click', createEffectClickHandler(item));
+  });
 
 })();
