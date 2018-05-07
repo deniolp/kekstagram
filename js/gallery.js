@@ -26,12 +26,10 @@
   };
 
   var addPictures = function (pictures) {
-    var pictureData;
     var pictureElement;
     var fragment = document.createDocumentFragment();
 
-    pictures.forEach(function (item) {
-      pictureData = item;
+    pictures.forEach(function (pictureData) {
       pictureData.description = pictureData.comments[0];
 
       pictureElement = createPictureElement(pictureTemplate, pictureData);
