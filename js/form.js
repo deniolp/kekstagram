@@ -13,8 +13,9 @@
   };
 
   var documentPressEscHandler = function (evt) {
-    if (hideOverlayFlag && evt.keyCode === KEYCODE_ESC) {
+    if (evt.keyCode === KEYCODE_ESC) {
       hideUploadOverlay();
+      document.removeEventListener('keydown', documentPressEscHandler);
     }
   };
 
@@ -28,14 +29,13 @@
   var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
   var commentTextareaElement = uploadFormElement.querySelector('.text__description');
   var hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
-  var hideOverlayFlag = true;
-
-  document.addEventListener('keydown', documentPressEscHandler);
 
   uploadFileInputElement.addEventListener('change', function () {
-    uploadImageElement.classList.remove('hidden');
     var file = uploadFileInputElement.files[0];
     var fileName = file.name.toLowerCase();
+
+    uploadImageElement.classList.remove('hidden');
+    document.addEventListener('keydown', documentPressEscHandler);
 
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
@@ -61,28 +61,30 @@
 
   uploadImageCancelElement.addEventListener('click', function () {
     hideUploadOverlay();
+    document.removeEventListener('keydown', documentPressEscHandler);
   });
 
   uploadImageCancelElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEYCODE_ENTER) {
       hideUploadOverlay();
+      document.removeEventListener('keydown', documentPressEscHandler);
     }
   });
 
   hashtagInputElement.addEventListener('focus', function () {
-    hideOverlayFlag = false;
+    document.removeEventListener('keydown', documentPressEscHandler);
   });
 
   hashtagInputElement.addEventListener('focusout', function () {
-    hideOverlayFlag = true;
+    document.addEventListener('keydown', documentPressEscHandler);
   });
 
   commentTextareaElement.addEventListener('focus', function () {
-    hideOverlayFlag = false;
+    document.removeEventListener('keydown', documentPressEscHandler);
   });
 
   commentTextareaElement.addEventListener('focusout', function () {
-    hideOverlayFlag = true;
+    document.addEventListener('keydown', documentPressEscHandler);
   });
 
   uploadFormElement.addEventListener('submit', function (evt) {
