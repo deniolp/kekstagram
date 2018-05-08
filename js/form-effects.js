@@ -24,6 +24,19 @@
   var KEYCODE_LEFT = 37;
   var KEYCODE_RIGHT = 39;
 
+  var applyPinPositionToEffect = function (pinLeftPosition, effectIntensity, scrollBarWidth) {
+    if (pinLeftPosition < PIN_WIDTH / 2) {
+      pinLeftPosition = PIN_WIDTH / 2;
+    } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
+      pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
+    }
+
+    scaleValueInputElement.value = effectIntensity;
+    scalePinElement.style.left = pinLeftPosition + 'px';
+    previewElement.style.filter = createStyleEffect(currentEffect, TYPE_EFFECT_CUSTOM);
+    scaleBarElement.style.width = effectIntensity + '%';
+  };
+
   var keyDownHandler = function (downEvt) {
 
     var scrollBarWidth = caclulateScrollBarWidth();
@@ -37,17 +50,8 @@
       pinLeftPosition = scalePinElement.offsetLeft + PIN_SCROLL_STEP;
     }
 
-    if (pinLeftPosition < PIN_WIDTH / 2) {
-      pinLeftPosition = PIN_WIDTH / 2;
-    } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
-      pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
-    }
-
     updateEffectIntensity(pinLeftPosition + scrollBarCoordX);
-    scaleValueInputElement.value = effectIntensity;
-    scalePinElement.style.left = pinLeftPosition + 'px';
-    previewElement.style.filter = createStyleEffect(currentEffect, TYPE_EFFECT_CUSTOM);
-    scaleBarElement.style.width = effectIntensity + '%';
+    applyPinPositionToEffect(pinLeftPosition, effectIntensity, scrollBarWidth);
   };
 
   var mouseDownHandler = function (downEvt) {
@@ -70,17 +74,9 @@
       } else {
         startCoordX = moveEvt.clientX;
       }
-      if (pinLeftPosition < PIN_WIDTH / 2) {
-        pinLeftPosition = PIN_WIDTH / 2;
-      } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
-        pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
-      }
-      updateEffectIntensity(startCoordX);
 
-      scaleValueInputElement.value = effectIntensity;
-      scalePinElement.style.left = pinLeftPosition + 'px';
-      previewElement.style.filter = createStyleEffect(currentEffect, TYPE_EFFECT_CUSTOM);
-      scaleBarElement.style.width = effectIntensity + '%';
+      updateEffectIntensity(startCoordX);
+      applyPinPositionToEffect(pinLeftPosition, effectIntensity, scrollBarWidth);
     };
 
     var mouseUpHandler = function (upEvt) {
