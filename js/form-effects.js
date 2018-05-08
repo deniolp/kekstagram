@@ -20,6 +20,35 @@
   var EFFECT_BRIGHTNESS_DEFAULT_VALUE = 3;
   var EFFECT_BRIGHTNESS_RATIO = 0.02;
   var PIN_WIDTH = 18;
+  var PIN_SCROLL_STEP = 10;
+  var KEYCODE_LEFT = 37;
+  var KEYCODE_RIGHT = 39;
+
+  var keyDownHandler = function (downEvt) {
+
+    var scrollBarWidth = caclulateScrollBarWidth();
+    var scrollBarCoordX = (windowWidth - scrollBarWidth) / 2;
+    var pinLeftPosition;
+
+    if (downEvt.keyCode === KEYCODE_LEFT) {
+      pinLeftPosition = scalePinElement.offsetLeft - PIN_SCROLL_STEP;
+    }
+    if (downEvt.keyCode === KEYCODE_RIGHT) {
+      pinLeftPosition = scalePinElement.offsetLeft + PIN_SCROLL_STEP;
+    }
+
+    if (pinLeftPosition < PIN_WIDTH / 2) {
+      pinLeftPosition = PIN_WIDTH / 2;
+    } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
+      pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
+    }
+
+    updateEffectIntensity(pinLeftPosition + scrollBarCoordX);
+    scaleValueInputElement.value = effectIntensity;
+    scalePinElement.style.left = pinLeftPosition + 'px';
+    previewElement.style.filter = createStyleEffect(currentEffect, TYPE_EFFECT_CUSTOM);
+    scaleBarElement.style.width = effectIntensity + '%';
+  };
 
   var mouseDownHandler = function (downEvt) {
     downEvt.preventDefault();
@@ -163,6 +192,13 @@
   var effectIntensity;
 
   scalePinElement.addEventListener('mousedown', mouseDownHandler);
+  scalePinElement.addEventListener('focus', function () {
+    scalePinElement.addEventListener('keydown', keyDownHandler);
+  });
+
+  scalePinElement.addEventListener('focusout', function () {
+    scalePinElement.removeEventListener('keydown', keyDownHandler);
+  });
 
   scaleElement.classList.add('hidden');
 
