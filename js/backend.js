@@ -2,6 +2,7 @@
 
 (function () {
   var TIMEOUT = 5000;
+  var SUCCESS_RESPONSE = 200;
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
   var URL_SAVE = 'https://js.dump.academy/kekstagram';
 
@@ -12,7 +13,7 @@
     xhr.timeout = TIMEOUT;
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_RESPONSE) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);

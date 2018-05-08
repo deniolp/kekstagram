@@ -1,14 +1,17 @@
 'use strict';
 
 (function () {
-  var EFFECTS = [
-    'none',
-    'chrome',
-    'sepia',
-    'marvin',
-    'phobos',
-    'heat'
-  ];
+  var Effect = {
+    DEFAULT: 'none',
+    CHROME: 'chrome',
+    SEPIA: 'sepia',
+    MARVIN: 'marvin',
+    PHOBOS: 'phobos',
+    HEAT: 'heat'
+  };
+
+  var TYPE_EFFECT_DEFAULT = 'default';
+  var TYPE_EFFECT_CUSTOM = 'custom';
   var EFFECT_GRAYSCALE_DEFAULT_VALUE = 1;
   var EFFECT_SEPIA_DEFAULT_VALUE = 1;
   var EFFECT_INVERT_DEFAULT_VALUE = 100;
@@ -17,6 +20,39 @@
   var EFFECT_BRIGHTNESS_DEFAULT_VALUE = 3;
   var EFFECT_BRIGHTNESS_RATIO = 0.02;
   var PIN_WIDTH = 18;
+  var PIN_SCROLL_STEP = 10;
+  var KEYCODE_LEFT = 37;
+  var KEYCODE_RIGHT = 39;
+
+  var applyPinPositionToEffect = function (pinLeftPosition, effectIntensity, scrollBarWidth) {
+    if (pinLeftPosition < PIN_WIDTH / 2) {
+      pinLeftPosition = PIN_WIDTH / 2;
+    } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
+      pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
+    }
+
+    scaleValueInputElement.value = effectIntensity;
+    scalePinElement.style.left = pinLeftPosition + 'px';
+    previewElement.style.filter = createStyleEffect(currentEffect, TYPE_EFFECT_CUSTOM);
+    scaleBarElement.style.width = effectIntensity + '%';
+  };
+
+  var keyDownHandler = function (downEvt) {
+
+    var scrollBarWidth = caclulateScrollBarWidth();
+    var scrollBarCoordX = (windowWidth - scrollBarWidth) / 2;
+    var pinLeftPosition;
+
+    if (downEvt.keyCode === KEYCODE_LEFT) {
+      pinLeftPosition = scalePinElement.offsetLeft - PIN_SCROLL_STEP;
+    }
+    if (downEvt.keyCode === KEYCODE_RIGHT) {
+      pinLeftPosition = scalePinElement.offsetLeft + PIN_SCROLL_STEP;
+    }
+
+    updateEffectIntensity(pinLeftPosition + scrollBarCoordX);
+    applyPinPositionToEffect(pinLeftPosition, effectIntensity, scrollBarWidth);
+  };
 
   var mouseDownHandler = function (downEvt) {
     downEvt.preventDefault();
@@ -38,17 +74,9 @@
       } else {
         startCoordX = moveEvt.clientX;
       }
-      if (pinLeftPosition < PIN_WIDTH / 2) {
-        pinLeftPosition = PIN_WIDTH / 2;
-      } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
-        pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
-      }
-      updateEffectIntensity(startCoordX);
 
-      scaleValueInputElement.value = effectIntensity;
-      scalePinElement.style.left = pinLeftPosition + 'px';
-      previewElement.style.filter = createStyleEffect(currentEffect);
-      scaleBarElement.style.width = effectIntensity + '%';
+      updateEffectIntensity(startCoordX);
+      applyPinPositionToEffect(pinLeftPosition, effectIntensity, scrollBarWidth);
     };
 
     var mouseUpHandler = function (upEvt) {
@@ -66,48 +94,66 @@
     return function () {
       currentEffect = effectName;
       previewElement.className = 'img-upload__preview effects__preview--' + effectName;
-      if (effectName === 'none') {
+      if (effectName === Effect.DEFAULT) {
         scaleElement.classList.add('hidden');
       } else {
         scaleElement.classList.remove('hidden');
       }
-      previewElement.style.filter = createDefaultStyleEffect(effectName);
+      previewElement.style.filter = createStyleEffect(effectName, TYPE_EFFECT_DEFAULT);
       scalePinElement.style.left = caclulateScrollBarWidth() - PIN_WIDTH / 2 + 'px';
       scaleBarElement.style.width = 100 + '%';
     };
   };
 
-  var createDefaultStyleEffect = function (effect) {
-    switch (effect) {
-      case 'chrome':
-        return 'grayscale(' + EFFECT_GRAYSCALE_DEFAULT_VALUE + ')';
-      case 'sepia':
-        return 'sepia(' + EFFECT_SEPIA_DEFAULT_VALUE + ')';
-      case 'marvin':
-        return 'invert(' + EFFECT_INVERT_DEFAULT_VALUE + '%)';
-      case 'phobos':
-        return 'blur(' + EFFECT_BLUR_DEFAULT_VALUE + 'px)';
-      case 'heat':
-        return 'brightness(' + EFFECT_BRIGHTNESS_DEFAULT_VALUE + ')';
-      default:
-        return 'none';
+  var createGreyScaleStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'grayscale(' + EFFECT_GRAYSCALE_DEFAULT_VALUE + ')';
     }
+    return 'grayscale(' + effectIntensity / 100 + ')';
   };
 
-  var createStyleEffect = function (effect) {
+  var createSepiaStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'sepia(' + EFFECT_SEPIA_DEFAULT_VALUE + ')';
+    }
+    return 'sepia(' + effectIntensity / 100 + ')';
+  };
+
+  var createInvertStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'invert(' + EFFECT_INVERT_DEFAULT_VALUE + '%)';
+    }
+    return 'invert(' + effectIntensity + '%)';
+  };
+
+  var createBlurStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'blur(' + EFFECT_BLUR_DEFAULT_VALUE + 'px)';
+    }
+    return 'blur(' + effectIntensity * EFFECT_BLUR_RATIO + 'px)';
+  };
+
+  var createBrightnessStyle = function (effectType) {
+    if (effectType !== TYPE_EFFECT_CUSTOM) {
+      return 'brightness(' + EFFECT_BRIGHTNESS_DEFAULT_VALUE + ')';
+    }
+    return 'brightness(' + (effectIntensity * EFFECT_BRIGHTNESS_RATIO + 1) + ')';
+  };
+
+  var createStyleEffect = function (effect, effectType) {
     switch (effect) {
-      case 'chrome':
-        return 'grayscale(' + effectIntensity / 100 + ')';
-      case 'sepia':
-        return 'sepia(' + effectIntensity / 100 + ')';
-      case 'marvin':
-        return 'invert(' + effectIntensity + '%)';
-      case 'phobos':
-        return 'blur(' + effectIntensity * EFFECT_BLUR_RATIO + 'px)';
-      case 'heat':
-        return 'brightness(' + (effectIntensity * EFFECT_BRIGHTNESS_RATIO + 1) + ')';
+      case Effect.CHROME:
+        return createGreyScaleStyle(effectType);
+      case Effect.SEPIA:
+        return createSepiaStyle(effectType);
+      case Effect.MARVIN:
+        return createInvertStyle(effectType);
+      case Effect.PHOBOS:
+        return createBlurStyle(effectType);
+      case Effect.HEAT:
+        return createBrightnessStyle(effectType);
       default:
-        return 'none';
+        return Effect.DEFAULT;
     }
   };
 
@@ -142,11 +188,18 @@
   var effectIntensity;
 
   scalePinElement.addEventListener('mousedown', mouseDownHandler);
+  scalePinElement.addEventListener('focus', function () {
+    scalePinElement.addEventListener('keydown', keyDownHandler);
+  });
+
+  scalePinElement.addEventListener('focusout', function () {
+    scalePinElement.removeEventListener('keydown', keyDownHandler);
+  });
 
   scaleElement.classList.add('hidden');
 
-  for (var i = 0; i < EFFECTS.length; i++) {
-    effectElement[i].addEventListener('click', createEffectClickHandler(EFFECTS[i]));
-  }
+  Object.values(Effect).forEach(function (item, index) {
+    effectElement[index].addEventListener('click', createEffectClickHandler(item));
+  });
 
 })();

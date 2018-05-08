@@ -26,19 +26,17 @@
   };
 
   var addPictures = function (pictures) {
-    var pictureData;
     var pictureElement;
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < pictures.length; i++) {
-      pictureData = pictures[i];
+    pictures.forEach(function (pictureData) {
       pictureData.description = pictureData.comments[0];
 
       pictureElement = createPictureElement(pictureTemplate, pictureData);
       pictureElement.addEventListener('click', createPictureClickHandler(pictureData, bigPictureElement));
 
       fragment.appendChild(pictureElement);
-    }
+    });
 
     picturesElements.appendChild(fragment);
   };
