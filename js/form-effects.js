@@ -45,9 +45,10 @@
 
     if (downEvt.keyCode === KEYCODE_LEFT) {
       pinLeftPosition = scalePinElement.offsetLeft - PIN_SCROLL_STEP;
-    }
-    if (downEvt.keyCode === KEYCODE_RIGHT) {
+    } else if (downEvt.keyCode === KEYCODE_RIGHT) {
       pinLeftPosition = scalePinElement.offsetLeft + PIN_SCROLL_STEP;
+    } else {
+      return;
     }
 
     updateEffectIntensity(pinLeftPosition + scrollBarCoordX);
