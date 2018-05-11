@@ -91,6 +91,16 @@
     document.addEventListener('mouseup', mouseUpHandler);
   };
 
+  var scaleLineClickHandler = function (evt) {
+    evt.preventDefault();
+    var scrollBarWidth = caclulateScrollBarWidth();
+    var scrollBarCoordX = (windowWidth - scrollBarWidth) / 2;
+    var pinLeftPosition = evt.clientX - scrollBarCoordX;
+
+    updateEffectIntensity(evt.clientX);
+    applyPinPositionToEffect(pinLeftPosition, effectIntensity, scrollBarWidth);
+  };
+
   var createEffectClickHandler = function (effectName) {
     return function () {
       currentEffect = effectName;
@@ -192,6 +202,7 @@
   scalePinElement.addEventListener('focus', function () {
     scalePinElement.addEventListener('keydown', keyDownHandler);
   });
+  scaleLineElement.addEventListener('click', scaleLineClickHandler);
 
   scalePinElement.addEventListener('focusout', function () {
     scalePinElement.removeEventListener('keydown', keyDownHandler);
