@@ -42,7 +42,7 @@
           commentBlock = commentBlockTemplate.cloneNode(true);
 
           commentBlock.querySelector('img').src = 'img/avatar-' + (i % AVATAR_LIMIT + 1) + '.svg';
-          commentBlock.lastChild.textContent = data.comments[commentCounter + i];
+          commentBlock.lastChild.textContent = data.comments[commentCounter + i].message;
           commentCounterElement.firstChild.textContent = commentCounter + i + 1 + ' из ';
 
           fragmentComment.appendChild(commentBlock);
@@ -58,7 +58,7 @@
       element.querySelector('.big-picture__img').querySelector('img').src = data.url;
       element.querySelector('.likes-count').textContent = data.likes;
       element.querySelector('.comments-count').textContent = data.comments.length;
-      element.querySelector('.social__caption').textContent = data.description;
+      element.querySelector('.social__caption').textContent = data.description.message;
 
       loadMoreButtonElement.addEventListener('click', function () {
         commentsBlockElement.appendChild(createMoreComments());
