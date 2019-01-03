@@ -55,33 +55,34 @@
     applyPinPositionToEffect(pinLeftPosition, effectIntensity, scrollBarWidth);
   };
 
-  var Coordinate = function (x) {
+  var Coordinate = function (x, minX) {
     this.x = x;
+    this._minX = minX;
+    this._maxX = minX + caclulateScrollBarWidth();
+  };
+
+  Coordinate.prototype.setX = function (moveX) {
+    if (moveX > this._minX &&
+      moveX < this._maxX) {
+      this.x = moveX;
+    }
+    updateEffectIntensity(this.x);
   };
 
   var mouseDownHandler = function (downEvt) {
     downEvt.preventDefault();
 
-    var startCoordX = new Coordinate(downEvt.clientX);
+    var scrollBarCoordX = (windowWidth - caclulateScrollBarWidth()) / 2;
+    var startCoordX = new Coordinate(downEvt.clientX, scrollBarCoordX);
 
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
-      var scrollBarWidth = caclulateScrollBarWidth();
-      var shiftX = startCoordX - moveEvt.clientX;
-      var scrollBarCoordX = (windowWidth - scrollBarWidth) / 2;
+      var shiftX = startCoordX.x - moveEvt.clientX;
       var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
 
-      if (moveEvt.clientX < scrollBarCoordX) {
-        startCoordX = scrollBarCoordX;
-      } else if (moveEvt.clientX > scrollBarCoordX + scrollBarWidth) {
-        startCoordX = scrollBarCoordX + scrollBarWidth;
-      } else {
-        startCoordX = moveEvt.clientX;
-      }
-
-      updateEffectIntensity(startCoordX);
-      applyPinPositionToEffect(pinLeftPosition, effectIntensity, scrollBarWidth);
+      startCoordX.setX(moveEvt.clientX);
+      applyPinPositionToEffect(pinLeftPosition, effectIntensity, caclulateScrollBarWidth());
     };
 
     var mouseUpHandler = function (upEvt) {
