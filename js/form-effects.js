@@ -55,10 +55,14 @@
     applyPinPositionToEffect(pinLeftPosition, effectIntensity, scrollBarWidth);
   };
 
+  var Coordinate = function (x) {
+    this.x = x;
+  };
+
   var mouseDownHandler = function (downEvt) {
     downEvt.preventDefault();
 
-    var startCoordX = downEvt.clientX;
+    var startCoordX = new Coordinate(downEvt.clientX);
 
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
