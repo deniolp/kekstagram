@@ -78,8 +78,8 @@
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
-      var shiftX = startCoordX.x - moveEvt.clientX;
-      var pinLeftPosition = scalePinElement.offsetLeft - shiftX;
+      var shift = new Coordinate(startCoordX.x - moveEvt.clientX);
+      var pinLeftPosition = scalePinElement.offsetLeft - shift.x;
 
       startCoordX.setX(moveEvt.clientX);
       applyPinPositionToEffect(pinLeftPosition, effectIntensity, caclulateScrollBarWidth());
