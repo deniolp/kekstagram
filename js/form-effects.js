@@ -193,7 +193,7 @@
 
   var uploadFormElement = document.querySelector('.img-upload__form');
   var previewElement = uploadFormElement.querySelector('.img-upload__preview');
-  var effectElement = uploadFormElement.querySelectorAll('.effects__radio');
+  var effectElements = uploadFormElement.querySelectorAll('.effects__radio');
   var scalePinElement = uploadFormElement.querySelector('.scale__pin');
   var scaleValueInputElement = uploadFormElement.querySelector('.scale__value');
   var scaleElement = uploadFormElement.querySelector('.img-upload__scale');
@@ -217,7 +217,7 @@
   scaleElement.classList.add('hidden');
 
   Object.values(Effect).forEach(function (item, index) {
-    effectElement[index].addEventListener('click', createEffectClickHandler(item));
+    effectElements[index].addEventListener('click', createEffectClickHandler(item));
   });
 
 })();
