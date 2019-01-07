@@ -55,33 +55,34 @@
     applyPinPositionToEffect(pinLeftPosition, effectIntensity, scrollBarWidth);
   };
 
-  var Coordinate = function (x, minX) {
+  var Pin = function (x, minX) {
     this.x = x;
     this._minX = minX;
     this._maxX = minX + caclulateScrollBarWidth();
   };
 
-  Coordinate.prototype.setX = function (moveX) {
+  Pin.prototype.updateX = function (moveX) {
+    var shift = this.x - moveX;
+    var pinLeftPosition = scalePinElement.offsetLeft - shift;
+
     if (moveX > this._minX &&
       moveX < this._maxX) {
       this.x = moveX;
     }
     updateEffectIntensity(this.x);
+    return pinLeftPosition;
   };
 
   var mouseDownHandler = function (downEvt) {
     downEvt.preventDefault();
 
     var scrollBarCoordX = (windowWidth - caclulateScrollBarWidth()) / 2;
-    var startCoordX = new Coordinate(downEvt.clientX, scrollBarCoordX);
+    var newPinCoord = new Pin(downEvt.clientX, scrollBarCoordX);
 
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
-      var shift = new Coordinate(startCoordX.x - moveEvt.clientX);
-      var pinLeftPosition = scalePinElement.offsetLeft - shift.x;
-
-      startCoordX.setX(moveEvt.clientX);
+      var pinLeftPosition = newPinCoord.updateX(moveEvt.clientX);
       applyPinPositionToEffect(pinLeftPosition, effectIntensity, caclulateScrollBarWidth());
     };
 
