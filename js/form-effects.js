@@ -24,13 +24,7 @@
   var KEYCODE_LEFT = 37;
   var KEYCODE_RIGHT = 39;
 
-  var applyPinPositionToEffect = function (pinLeftPosition, effectIntensity, scrollBarWidth) {
-    if (pinLeftPosition < PIN_WIDTH / 2) {
-      pinLeftPosition = PIN_WIDTH / 2;
-    } else if (pinLeftPosition > scrollBarWidth - PIN_WIDTH / 2) {
-      pinLeftPosition = scrollBarWidth - PIN_WIDTH / 2;
-    }
-
+  var applyPinPositionToEffect = function (pinLeftPosition, effectIntensity) {
     scaleValueInputElement.value = effectIntensity;
     scalePinElement.style.left = pinLeftPosition + 'px';
     previewElement.style.filter = createStyleEffect(currentEffect, TYPE_EFFECT_CUSTOM);
@@ -69,6 +63,12 @@
       moveX < this._maxX) {
       this.x = moveX;
     }
+
+    if (pinLeftPosition < PIN_WIDTH / 2) {
+      pinLeftPosition = PIN_WIDTH / 2;
+    } else if (pinLeftPosition > caclulateScrollBarWidth() - PIN_WIDTH / 2) {
+      pinLeftPosition = caclulateScrollBarWidth() - PIN_WIDTH / 2;
+    }
     updateEffectIntensity(this.x);
     return pinLeftPosition;
   };
@@ -83,7 +83,7 @@
       moveEvt.preventDefault();
 
       var pinLeftPosition = newPinCoord.updateX(moveEvt.clientX);
-      applyPinPositionToEffect(pinLeftPosition, effectIntensity, caclulateScrollBarWidth());
+      applyPinPositionToEffect(pinLeftPosition, effectIntensity);
     };
 
     var mouseUpHandler = function (upEvt) {
