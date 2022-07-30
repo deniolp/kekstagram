@@ -18,7 +18,7 @@
   "dependencies": {
     "acorn": "^7.1.1",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "minimist": "^1.2.5"
   },
   "scripts": {
