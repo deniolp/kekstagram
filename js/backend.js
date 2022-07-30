@@ -3,8 +3,8 @@
 (function () {
   var TIMEOUT = 5000;
   var SUCCESS_RESPONSE = 200;
-  var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
-  var URL_SAVE = 'https://js.dump.academy/kekstagram';
+  var URL_LOAD = 'https://25.javascript.pages.academy/kekstagram/data';
+  var URL_SAVE = 'https://25.javascript.pages.academy/kekstagram';
 
   var request = function (method, url, onSuccess, onError, data) {
     var xhr = new XMLHttpRequest();
